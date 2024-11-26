@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity\Produit;
+use App\Config\ConfigurationManager;
 
 /**
  * Produit périssable nécessitant des conditions de stockage.
@@ -24,8 +25,11 @@ class ProduitPerissable extends Produit
 
     public function calculerFraisLivraison(): float
     {
-        return 10 + 5;
+        $configManager = ConfigurationManager::getInstance();
+        $fraisBase = $configManager->get('frais_livraison_base');
+        return $fraisBase + 5; 
     }
+    
 
     public function afficherDetails(): void
     {
