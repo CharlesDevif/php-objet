@@ -1,50 +1,116 @@
 <?php
 
+// Inclure les fichiers de classe ou utiliser un autoloader
+require_once __DIR__ . '/../src/Entity/Produit/Produit.php';
+require_once __DIR__ . '/../src/Entity/Produit/ProduitPhysique.php';
+require_once __DIR__ . '/../src/Entity/Produit/ProduitNumerique.php';
+require_once __DIR__ . '/../src/Entity/Produit/ProduitPerissable.php';
+require_once __DIR__ . '/../src/Entity/Categorie.php';
+require_once __DIR__ . '/../src/Entity/Panier.php';
+require_once __DIR__ . '/../src/Entity/Utilisateur/Utilisateur.php';
+require_once __DIR__ . '/../src/Entity/Utilisateur/Client.php';
+require_once __DIR__ . '/../src/Entity/Utilisateur/Admin.php';
+require_once __DIR__ . '/../src/Entity/Utilisateur/Vendeur.php';
 
-require_once __DIR__ . '/../src/Entity/Produit.php';
-require_once __DIR__ . '/../src/Entity/Utilisateur.php';
+// Si vous utilisez des namespaces, vous pouvez les importer
+use App\Entity\Produit\ProduitPhysique;
+use App\Entity\Produit\ProduitNumerique;
+use App\Entity\Produit\ProduitPerissable;
+use App\Entity\Categorie;
+use App\Entity\Panier;
+use App\Entity\Utilisateur\Client;
+use App\Entity\Utilisateur\Admin;
+use App\Entity\Utilisateur\Vendeur;
 
-use App\Entity\Produit;
-use App\Entity\Utilisateur;
+echo "=== Création de différents types de produits ===\n";
 
-// Création d'instances de produits
-try {
-    $produit1 = new Produit("Ordinateur Portable", "Un puissant ordinateur portable.", 1200.99, 10);
-    $produit2 = new Produit("Smartphone", "Un smartphone dernier cri.", 799.49, 5);
+// Création d'un produit physique
+$produitPhysique = new ProduitPhysique(
+    "Laptop",
+    "Un ordinateur portable performant.",
+    1500.00,
+    5,
+    2.5,   // poids en kg
+    35.0,  // longueur en cm
+    24.0,  // largeur en cm
+    2.0    // hauteur en cm
+);
 
-    // Modification des propriétés via setters
-    $produit1->setPrix(1150.00);
-    $produit1->setStock(8);
+$produitPhysique->afficherDetails();
+echo "Frais de livraison : " . $produitPhysique->calculerFraisLivraison() . "€\n\n";
 
-    // Calcul de prix TTC
-    echo "Prix TTC du produit 1 : " . $produit1->calculerPrixTTC() . "€\n";
+// Création d'un produit numérique
+$produitNumerique = new ProduitNumerique(
+    "E-book PHP",
+    "Un livre électronique pour apprendre PHP.",
+    29.99,
+    100,
+    "https://exemple.com/telechargement/ebook-php",
+    5.0,   // taille du fichier en MB
+    "PDF"
+);
 
-    // Vérification de stock
-    $quantiteDemandee = 9;
-    if ($produit1->verifierStock($quantiteDemandee)) {
-        echo "Le stock est suffisant pour $quantiteDemandee unités.\n";
-    } else {
-        echo "Le stock n'est pas suffisant pour $quantiteDemandee unités.\n";
-    }
-} catch (\Exception $e) {
-    echo "Erreur lors de la création ou de la modification du produit : " . $e->getMessage() . "\n";
-}
+$produitNumerique->afficherDetails();
+echo "Frais de livraison : " . $produitNumerique->calculerFraisLivraison() . "€\n";
+echo "Lien de téléchargement : " . $produitNumerique->genererLienTelechargement() . "\n\n";
 
-// Création d'instances d'utilisateurs
-try {
-    $utilisateur1 = new Utilisateur("Alice", "alice@example.com", "password123");
-    $utilisateur2 = new Utilisateur("Bob", "bob@example.com", "securePass!");
+// Création d'un produit périssable
+$dateExpiration = new \DateTime('+5 days');
+$produitPerissable = new ProduitPerissable(
+    "Yaourt",
+    "Un yaourt bio.",
+    1.50,
+    50,
+    $dateExpiration,
+    4.0   // température de stockage en °C
+);
 
-    // Validation du mot de passe
-    if ($utilisateur1->verifierMotDePasse("password123")) {
-        echo "Mot de passe valide pour " . $utilisateur1->getNom() . ".\n";
-    } else {
-        echo "Mot de passe invalide pour " . $utilisateur1->getNom() . ".\n";
-    }
+$produitPerissable->afficherDetails();
+echo "Est périmé ? " . ($produitPerissable->estPerime() ? "Oui" : "Non") . "\n";
+echo "Frais de livraison : " . $produitPerissable->calculerFraisLivraison() . "€\n\n";
 
-    // Mise à jour de profil
-    $utilisateur1->mettreAJourProfil("Alice Smith", "alice.smith@example.com", "newPassword456");
-    echo "Profil mis à jour pour " . $utilisateur1->getNom() . ".\n";
-} catch (\Exception $e) {
-    echo "Erreur lors de la création ou de la modification de l'utilisateur : " . $e->getMessage() . "\n";
-}
+echo "=== Manipulation du panier ===\n";
+
+$panier = new Panier();
+$panier->ajouterArticle($produitPhysique, 2);
+$panier->ajouterArticle($produitNumerique, 1);
+$panier->ajouterArticle($produitPerissable, 10);
+
+echo "Total du panier : " . $panier->calculerTotal() . "€\n";
+echo "Nombre d'articles dans le panier : " . $panier->compterArticles() . "\n";
+
+$panier->retirerArticle($produitPerissable, 5);
+echo "Après avoir retiré 5 yaourts :\n";
+echo "Total du panier : " . $panier->calculerTotal() . "€\n";
+echo "Nombre d'articles dans le panier : " . $panier->compterArticles() . "\n";
+
+$panier->vider();
+echo "Après avoir vidé le panier :\n";
+echo "Total du panier : " . $panier->calculerTotal() . "€\n";
+echo "Nombre d'articles dans le panier : " . $panier->compterArticles() . "\n\n";
+
+echo "=== Création et gestion des différents types d'utilisateurs ===\n";
+
+// Création d'un client
+$client = new Client("Alice", "alice@example.com", "password123", "123 Rue Principale, Paris");
+$client->afficherRoles();
+echo "Adresse de livraison : " . $client->getAdresseLivraison() . "\n";
+
+// Le client ajoute des articles à son panier
+$client->getPanier()->ajouterArticle($produitPhysique, 1);
+echo "Total du panier du client : " . $client->getPanier()->calculerTotal() . "€\n";
+
+// Création d'un administrateur
+$admin = new Admin("Bob", "bob@example.com", "adminpass456", 5);
+$admin->afficherRoles();
+echo "Niveau d'accès : " . $admin->getNiveauAcces() . "\n";
+
+// Création d'un vendeur
+$vendeur = new Vendeur("Charlie", "charlie@example.com", "vendpass789", "La Boutique de Charlie", 10.0);
+$vendeur->afficherRoles();
+echo "Boutique : " . $vendeur->getBoutique() . "\n";
+echo "Commission : " . $vendeur->getCommission() . "%\n";
+
+// Le vendeur ajoute un produit (fonctionnalité à implémenter)
+$vendeur->ajouterProduit($produitPhysique);
+
