@@ -26,7 +26,7 @@ class ProduitNumerique extends Produit
 
     public function calculerFraisLivraison(): float
     {
-        return 0; // Pas de frais de livraison pour les produits numériques
+        return 0; 
     }
 
     public function afficherDetails(): void

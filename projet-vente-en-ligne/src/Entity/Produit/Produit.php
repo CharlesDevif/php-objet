@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity\Produit;
-
+use App\Config\ConfigurationManager;
 /**
  * Classe abstraite représentant un produit.
  */
@@ -37,6 +37,14 @@ abstract class Produit
     public function setStock(int $stock): void { $this->stock = $stock; }
 
     public function getId(): ?int { return $this->id; }
+
+    public function calculerPrixTTC(): float
+{
+    $configManager = ConfigurationManager::getInstance();
+    $tva = $configManager->get('tva');
+    return $this->prix * (1 + $tva / 100);
+}
+
 
     // Méthode abstraite pour les frais de livraison
     abstract public function calculerFraisLivraison(): float;

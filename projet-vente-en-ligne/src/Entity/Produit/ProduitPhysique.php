@@ -2,6 +2,8 @@
 
 namespace App\Entity\Produit;
 
+use App\Config\ConfigurationManager;
+
 /**
  * Produit physique avec des propriétés liées à ses dimensions et son poids.
  */
@@ -12,8 +14,16 @@ class ProduitPhysique extends Produit
     private float $largeur;
     private float $hauteur;
 
-    public function __construct(string $nom, string $description, float $prix, int $stock, float $poids, float $longueur, float $largeur, float $hauteur)
-    {
+    public function __construct(
+        string $nom,
+        string $description,
+        float $prix,
+        int $stock,
+        float $poids,
+        float $longueur,
+        float $largeur,
+        float $hauteur
+    ) {
         parent::__construct($nom, $description, $prix, $stock);
         $this->poids = $poids;
         $this->longueur = $longueur;
@@ -28,7 +38,13 @@ class ProduitPhysique extends Produit
 
     public function calculerFraisLivraison(): float
     {
-        return $this->poids * 1.5; // Exemple : 1,5 $ par kg
+        $configManager = ConfigurationManager::getInstance();
+        $fraisBase = $configManager->get('frais_livraison_base'); 
+
+        // Calculer les frais de livraison en fonction du poids
+        $fraisLivraison = $fraisBase + ($this->poids * 1.5); // Exemple : 1,5€ par kg
+
+        return $fraisLivraison;
     }
 
     public function afficherDetails(): void
