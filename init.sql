@@ -18,19 +18,21 @@ CREATE TABLE IF NOT EXISTS produit (
     prix DECIMAL(10,2) NOT NULL,
     stock INT NOT NULL,
     type ENUM('physique', 'numerique', 'perissable') NOT NULL,
-    -- Champs supplémentaires pour 'ProduitPhysique'
+    -- Champs spécifiques à ProduitPhysique
     poids FLOAT NULL,
     longueur FLOAT NULL,
     largeur FLOAT NULL,
     hauteur FLOAT NULL,
-    -- Champs supplémentaires pour 'ProduitNumerique'
-    lien_telechargement VARCHAR(255) NULL,
-    taille_fichier FLOAT NULL,
-    format_fichier VARCHAR(50) NULL,
-    -- Champs supplémentaires pour 'ProduitPerissable'
-    date_expiration DATE NULL,
-    temperature_stockage FLOAT NULL
+    -- Champs spécifiques à ProduitNumerique
+    lienTelechargement VARCHAR(255) NULL,
+    tailleFichier FLOAT NULL,
+    formatFichier VARCHAR(50) NULL,
+    -- Champs spécifiques à ProduitPerissable
+    dateExpiration DATE NULL,
+    temperatureStockage FLOAT NULL
 );
+
+
 
 -- Table 'utilisateur'
 CREATE TABLE IF NOT EXISTS utilisateur (

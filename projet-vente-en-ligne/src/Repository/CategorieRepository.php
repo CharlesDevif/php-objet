@@ -28,13 +28,16 @@ class CategorieRepository
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(':nom', $categorie->getNom());
         $stmt->bindValue(':description', $categorie->getDescription());
-
+    
         if ($stmt->execute()) {
-            return (int)$this->connection->lastInsertId();
+            $id = (int)$this->connection->lastInsertId();
+            $categorie->setId($id);
+            return $id;
         } else {
             throw new \Exception('Erreur lors de la création de la catégorie.');
         }
     }
+    
 
     /**
      * Récupère une catégorie par son ID.
@@ -51,7 +54,11 @@ class CategorieRepository
         $data = $stmt->fetch();
 
         if ($data) {
-            $categorie = new Categorie($data['id'], $data['nom'], $data['description']);
+            $categorie = new Categorie(
+                $data['nom'],
+                $data['description'],
+                (int)$data['id']
+            );
             return $categorie;
         }
 
@@ -106,9 +113,12 @@ class CategorieRepository
         $sql = "SELECT * FROM categorie";
         $stmt = $this->connection->query($sql);
         $categories = [];
-
         while ($data = $stmt->fetch()) {
-            $categorie = new Categorie($data['id'], $data['nom'], $data['description']);
+            $categorie = new Categorie(
+                $data['nom'],
+                $data['description'],
+                (int)$data['id']
+            );
             $categories[] = $categorie;
         }
 
@@ -139,7 +149,11 @@ class CategorieRepository
         $categories = [];
 
         while ($data = $stmt->fetch()) {
-            $categorie = new Categorie($data['id'], $data['nom'], $data['description']);
+            $categorie = new Categorie(
+                $data['nom'],
+                $data['description'],
+                (int)$data['id']
+            );
             $categories[] = $categorie;
         }
 

@@ -12,13 +12,14 @@ class Client extends Utilisateur
     private string $adresseLivraison;
     private Panier $panier;
 
-    public function __construct(string $nom, string $email, string $motDePasse, string $adresseLivraison)
+    public function __construct(string $nom, string $email, string $motDePasse, ?string $adresseLivraison = '')
     {
         parent::__construct($nom, $email, $motDePasse);
-        $this->adresseLivraison = $adresseLivraison;
+        $this->adresseLivraison = $adresseLivraison ?? '';
         $this->panier = new Panier();
         $this->roles[] = 'ROLE_CLIENT';
     }
+    
 
     public function getAdresseLivraison(): string { return $this->adresseLivraison; }
     public function setAdresseLivraison(string $adresse): void { $this->adresseLivraison = $adresse; }
@@ -39,6 +40,10 @@ class Client extends Utilisateur
     public function afficherRoles(): void
     {
         echo "Roles du client {$this->nom} : " . implode(', ', $this->roles) . "\n";
+    }
+    public function setMotDePasseHache(string $motDePasseHache): void
+    {
+        $this->motDePasse = $motDePasseHache;
     }
 }
 

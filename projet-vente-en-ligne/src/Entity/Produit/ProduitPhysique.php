@@ -31,6 +31,47 @@ class ProduitPhysique extends Produit
         $this->hauteur = $hauteur;
     }
 
+    // Getters et setters
+    public function getPoids(): float
+    {
+        return $this->poids;
+    }
+
+    public function setPoids(float $poids): void
+    {
+        $this->poids = $poids;
+    }
+
+    public function getLongueur(): float
+    {
+        return $this->longueur;
+    }
+
+    public function setLongueur(float $longueur): void
+    {
+        $this->longueur = $longueur;
+    }
+
+    public function getLargeur(): float
+    {
+        return $this->largeur;
+    }
+
+    public function setLargeur(float $largeur): void
+    {
+        $this->largeur = $largeur;
+    }
+
+    public function getHauteur(): float
+    {
+        return $this->hauteur;
+    }
+
+    public function setHauteur(float $hauteur): void
+    {
+        $this->hauteur = $hauteur;
+    }
+
     public function calculerVolume(): float
     {
         return $this->longueur * $this->largeur * $this->hauteur;
@@ -39,10 +80,8 @@ class ProduitPhysique extends Produit
     public function calculerFraisLivraison(): float
     {
         $configManager = ConfigurationManager::getInstance();
-        $fraisBase = $configManager->get('frais_livraison_base'); 
-
-        // Calculer les frais de livraison en fonction du poids
-        $fraisLivraison = $fraisBase + ($this->poids * 1.5); // Exemple : 1,5€ par kg
+        $fraisBase = $configManager->get('frais_livraison_base');
+        $fraisLivraison = $fraisBase + ($this->poids * 1.5); 
 
         return $fraisLivraison;
     }

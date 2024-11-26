@@ -40,5 +40,9 @@ class Vendeur extends Utilisateur
     {
         echo "Roles du vendeur {$this->nom} : " . implode(', ', $this->roles) . "\n";
     }
+    public function setMotDePasseHache(string $motDePasseHache): void
+    {
+        $this->motDePasse = $motDePasseHache;
+    }
 }
 
