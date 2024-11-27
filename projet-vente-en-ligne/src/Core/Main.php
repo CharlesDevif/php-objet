@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Controllers\HomeController;
 use App\Controllers\MainController;
 
 /**
@@ -39,7 +40,6 @@ class Main
         else
             $params[0] = '';
 
-        // var_dump($params);
         if ($params[0] != '') {
             // On a au moins 1 paramètre
             // On récupère le nom du contrôleur à instancier
@@ -50,11 +50,11 @@ class Main
             $controller = new $controller();
 
             // On récupère le 2ème paramètre d'URL
-            $action = (isset($params[0])) ? array_shift($params) : 'index';
+            $action = (isset($params[1])) ? array_shift($params) : 'index';
 
             if (method_exists($controller, $action)) {
                 // Si il reste des paramètres on les passe à la méthode
-                (isset($params[0])) ? call_user_func_array([$controller, $action], $params) : $controller->$action();
+                (isset($params[2])) ? call_user_func_array([$controller, $action], $params) : $controller->$action();
             } else {
                 http_response_code(404);
                 echo "La page recherchée n'existe pas";
@@ -62,7 +62,7 @@ class Main
         } else {
             // On n'a pas de paramètres
             // On instancie le contrôleur par défaut
-            $controller = new MainController();
+            $controller = new HomeController();
 
             // On appelle la méthode index
             $controller->index();
