@@ -14,56 +14,60 @@ class Main
         // On démarre la session
         session_start();
 
-        // On retire le "trailing slash" éventuel de l'URL
-        // On récupère l'URL
-        $uri = $_SERVER['REQUEST_URI']; // $uri = "/projet-vente-en-ligne/"
+        // On récupère l'URI complète
+        $uri = $_SERVER['REQUEST_URI'];
 
-        // On vérifie que uri n'est pas vide et se termine par un /
-        if (!empty($uri) && $uri != "/projet-vente-en-ligne/" && $uri[-1] === "/") {
-            // On enlève le /
+        // On supprime le "trailing slash" éventuel
+        if (!empty($uri) && $uri !== '/' && substr($uri, -1) === '/') {
             $uri = substr($uri, 0, -1);
 
-            // On envoie un code de redirection permanente
+            // On redirige vers l'URL sans le slash final
             http_response_code(301);
-
-            // On redirige vers l'URL sans /
             header('Location: ' . $uri);
+            exit();
         }
 
-        // On gère les paramètres d'URL
-        // p=controleur/methode/paramètres
-        // On sépare les paramètres dans un tableau
-        $params = [];
-        if (isset($_GET['p']))
-            $params = explode('/', $_GET['p']);
-        else
-            $params[0] = '';
+        // Définir le chemin de base si l'application est dans un sous-dossier
+        $basePath = '/projet-vente-en-ligne'; // Ajustez ce chemin selon votre configuration
 
-        if ($params[0] != '') {
-            // On a au moins 1 paramètre
-            // On récupère le nom du contrôleur à instancier
-            // On met une majuscule en 1ère lettre, on ajoute le namespace complet avant et on ajoute "Controller" après
-            $controller = '\\App\\Controllers\\' . ucfirst(array_shift($params)) . 'Controller';
+        if (strpos($uri, $basePath) === 0) {
+            $uri = substr($uri, strlen($basePath));
+        }
 
-            // On instancie le contrôleur
-            $controller = new $controller();
+        // Supprimer le premier slash s'il existe
+        $uri = ltrim($uri, '/');
 
-            // On récupère le 2ème paramètre d'URL
-            $action = (isset($params[1])) ? array_shift($params) : 'index';
+        // Séparer les segments de l'URI
+        $params = explode('/', $uri);
 
-            if (method_exists($controller, $action)) {
-                // Si il reste des paramètres on les passe à la méthode
-                (isset($params[2])) ? call_user_func_array([$controller, $action], $params) : $controller->$action();
+        // Gestion des routes
+        if (!empty($params[0])) {
+            // On a au moins 1 paramètre : contrôleur
+            $controllerName = ucfirst(array_shift($params)) . 'Controller';
+            $controllerClass = '\\App\\Controllers\\' . $controllerName;
+
+            // Vérification de l'existence du contrôleur
+            if (class_exists($controllerClass)) {
+                $controller = new $controllerClass();
+
+                // On récupère la méthode (action) ou on utilise "index" par défaut
+                $action = array_shift($params) ?? 'index';
+
+                // Vérification de l'existence de la méthode
+                if (method_exists($controller, $action)) {
+                    // Appel de la méthode avec les éventuels paramètres
+                    call_user_func_array([$controller, $action], $params);
+                } else {
+                    http_response_code(404);
+                    echo "La méthode '$action' n'existe pas dans le contrôleur '$controllerName'.";
+                }
             } else {
                 http_response_code(404);
-                echo "La page recherchée n'existe pas";
+                echo "Le contrôleur '$controllerName' n'existe pas.";
             }
         } else {
-            // On n'a pas de paramètres
-            // On instancie le contrôleur par défaut
+            // Aucun paramètre, on appelle le contrôleur par défaut (HomeController)
             $controller = new HomeController();
-
-            // On appelle la méthode index
             $controller->index();
         }
     }
