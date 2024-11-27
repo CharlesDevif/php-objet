@@ -61,6 +61,14 @@
                         <label for="numberStock" class="form-label">Stock</label>
                         <input type="number" id="numberStock" class="form-control" />
                     </div>
+                    <div class="input-group mb-1">
+                        <input type="text" class="form-control" id="inputTemperatureProduit" placeholder="Température de stockage" aria-label="Température en °C">
+                        <span class="input-group-text">°C</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputNomProduit" class="form-label">Date d'expiration :</label>
+                        <input type="date" class="form-control" id="inputDateExpirationProduit">
+                    </div>
                     <button type="submit" class="btn btn-primary">Ajouter</button>
                 </form>
             </div>
@@ -84,6 +92,22 @@
                     <div class="mb-3">
                         <label for="numberStock" class="form-label">Stock</label>
                         <input type="number" id="numberStock" class="form-control" />
+                    </div>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" id="inputPoidsProduit" placeholder="Poids" aria-label="Poids en kg">
+                        <span class="input-group-text">kg</span>
+                    </div>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" id="inputLongueurProduit" placeholder="Longueur" aria-label="Longueur en cm">
+                        <span class="input-group-text">cm</span>
+                    </div>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" id="inputLargeurProduit" placeholder="Largeur" aria-label="Largeur en cm">
+                        <span class="input-group-text">cm</span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="inputHauteurProduit" placeholder="Hauteur" aria-label="Hauteur en cm">
+                        <span class="input-group-text">cm</span>
                     </div>
                     <button type="submit" class="btn btn-primary">Ajouter</button>
                 </form>
