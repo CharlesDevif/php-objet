@@ -3,7 +3,6 @@
 namespace App\Core;
 
 use App\Controllers\HomeController;
-use App\Controllers\MainController;
 
 /**
  * Routeur principal
