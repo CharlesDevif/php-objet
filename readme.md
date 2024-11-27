@@ -14,7 +14,13 @@ Resources utiles :
 - [Docker on Windows](https://docs.docker.com/desktop/setup/install/windows-install/)
 - [Docker on Mac](https://docs.docker.com/desktop/setup/install/mac-install/)
 
-Une fois cela fait, il vous suffit d'exécuter la commande suivante à la racine du projet : `docker-compose up -d`.
+Une fois cela fait, il vous suffit d'exécuter les commandes suivantes à la racine du projet :
+
+```bash
+cd docker/ && docker-compose up -d
+```
+
+> Concernant toutes commandes relatives à `docker-compose`, celles-ci devront être exécutées dans le dossier **docker**.
 
 Pour arrêter l'exécution des conteneurs et les supprimer : `docker-compose down`.
 
@@ -23,6 +29,8 @@ Pour simplement les arrêter : `docker-compose stop`
 Pour les relancer : `docker-compose start`.
 
 Une fois les conteneurs lancés, il suffit de vous rendre sur le [lien suivant](http://localhost:8080/projet-vente-en-ligne/).
+
+Pour les [tests réalisés](http://localhost:8080/projet-vente-en-ligne/tests.php)
 
 ## Collaborateurs
 
