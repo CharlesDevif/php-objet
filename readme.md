@@ -34,7 +34,7 @@ Pour les [tests réalisés](http://localhost:8080/projet-vente-en-ligne/tests.ph
 
 ## Mise en place d'un routeur
 
-Afin de pouvoir naviguer correctement, il m'a fallu mettre à jour le fichier `apache2.conf` afin d'y ajouter un paramètre qui nous servirais à facilement parmis nos différentes vues.
+Afin de pouvoir naviguer correctement, il m'a fallu mettre à jour le fichier `apache2.conf` afin d'y ajouter un paramètre qui nous permettrai de naviguer facilement parmis nos différentes vues.
 
 De ce fait, la page d'accueil se situe a l'adresse suivante : `http://localhost:8080/projet-vente-en-ligne?p=home` ou `http://localhost:8080/projet-vente-en-ligne` ou `http://localhost:8080/projet-vente-en-ligne/index.php?p=home`.
 
