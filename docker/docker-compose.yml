@@ -5,33 +5,35 @@ services:
       dockerfile: Dockerfile
     container_name: php-apache
     volumes:
-      - ./:/var/www/html
+      - ../projet-vente-en-ligne/:/var/www/html/projet-vente-en-ligne
     ports:
-      - "8080:80"
+      - '8080:80'
     depends_on:
       - db
     env_file:
-      - .env
+      - ../.env
+    command: >
+      sh -c "composer install --working-dir=/var/www/html/projet-vente-en-ligne && apache2-foreground"
 
   db:
     image: mysql:8.0
     container_name: mysql-db
     env_file:
-      - .env
+      - ../.env
     volumes:
       - db_data:/var/lib/mysql
       - ./docker/mysql/:/docker-entrypoint-initdb.d/
 
     ports:
-      - "3306:3306"
+      - '3306:3306'
 
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: phpmyadmin
     env_file:
-      - .env
+      - ../.env
     ports:
-      - "8081:80"
+      - '8081:80'
     depends_on:
       - db
 
