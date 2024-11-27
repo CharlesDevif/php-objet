@@ -1,14 +1,21 @@
 <?php
 
-use App\Core\Main;
+// Chargement de l'autoloader
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// On définit une constante contenant le dossier racine du projet
+// Définition de la constante ROOT
 define('ROOT', dirname(__DIR__));
 
-require_once ROOT . '/vendor/autoload.php';
+// Extraction de l'URI sans query string
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// On instancie Main (notre routeur)
+// Nettoyage du préfixe `/projet-vente-en-ligne/` et suppression des slashes inutiles
+$basePath = '/projet-vente-en-ligne';
+$uri = substr($uri, strlen($basePath));
+$uri = trim($uri, '/');
+
+// Inclusion du routeur principal
+use App\Core\Main;
+
 $app = new Main();
-
-// On démarre l'application
-$app->start();
+$app->start($uri);
