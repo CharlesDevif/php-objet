@@ -6,7 +6,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $this->render('home/index', [], 'home');
+        $this->render('home/index', []);
     }
-
 }
