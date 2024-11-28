@@ -83,6 +83,13 @@ class ProduitController extends Controller
             if (!$dateExpiration) return null;
 
             return new ProduitPerissable($nom, $description, $prix, $stock, $dateExpiration, $temperature);
+        } else if (isset($_POST['physique']) && isset($_POST['poids']) && isset($_POST['longueur']) && isset($_POST['largeur']) && isset($_POST['hauteur'])) {
+            $poids = strip_tags($_POST['poids']);
+            $longueur = strip_tags($_POST['longueur']);
+            $largeur = strip_tags($_POST['largeur']);
+            $hauteur = strip_tags($_POST['hauteur']);
+
+            return new ProduitPhysique($nom, $description, $prix, $stock, $poids, $longueur, $largeur, $hauteur);
         } else {
             return null;
         }
