@@ -7,6 +7,7 @@ use App\Entity\Produit\ProduitNumerique;
 use App\Entity\Produit\ProduitPerissable;
 use App\Service\ProduitService;
 use App\Entity\Produit\ProduitPhysique;
+use App\Factory\ProduitFactory;
 use Exception;
 
 class ProduitController extends Controller
@@ -73,9 +74,9 @@ class ProduitController extends Controller
         exit();
     }
 
-    public function supprimer($id)
+    public function supprimer(int $id)
     {
-        $this->produitService->supprimerProduit((int)$id);
+        $this->produitService->supprimerProduit($id);
         header('Location: /projet-vente-en-ligne/produit');
         exit();
         // Redirection vers la liste des produits après ajout
@@ -114,14 +115,31 @@ class ProduitController extends Controller
                 return null;
             }
 
-            return new ProduitNumerique($nom, $description, $prix, $stock, $lienTelechargement, $tailleFichier, $formatFichier);
+            // return new ProduitNumerique($nom, $description, $prix, $stock, $lienTelechargement, $tailleFichier, $formatFichier);
+            return ProduitFactory::creerProduit('numerique', [
+                'nom' => $nom,
+                'description' => $description,
+                'prix' => $prix,
+                'stock' => $stock,
+                'lienTelechargement' => $lienTelechargement,
+                'tailleFichier' => $tailleFichier,
+                'formatFichier' => $formatFichier
+            ]);
         } else if (isset($_POST['perissable']) && isset($_POST['dateExpiration']) && isset($_POST['temperature'])) {
             $dateExpiration = \DateTime::createFromFormat("Y-m-d", strip_tags($_POST['dateExpiration']));
             $temperature = strip_tags($_POST['temperature']);
 
             if (!$dateExpiration || !is_numeric($temperature)) return null;
 
-            return new ProduitPerissable($nom, $description, $prix, $stock, $dateExpiration, $temperature);
+            // return new ProduitPerissable($nom, $description, $prix, $stock, $dateExpiration, $temperature);
+            return ProduitFactory::creerProduit('perissable', [
+                'nom' => $nom,
+                'description' => $description,
+                'prix' => $prix,
+                'stock' => $stock,
+                'dateExpiration' => $dateExpiration,
+                'temperatureStockage' => $temperature
+            ]);
         } else if (isset($_POST['physique']) && isset($_POST['poids']) && isset($_POST['longueur']) && isset($_POST['largeur']) && isset($_POST['hauteur'])) {
             $poids = strip_tags($_POST['poids']);
             $longueur = strip_tags($_POST['longueur']);
@@ -130,7 +148,17 @@ class ProduitController extends Controller
 
             if (!is_numeric($poids) || !is_numeric($longueur) || !is_numeric($largeur) || !is_numeric($hauteur)) return null;
 
-            return new ProduitPhysique($nom, $description, $prix, $stock, $poids, $longueur, $largeur, $hauteur);
+            //return new ProduitPhysique($nom, $description, $prix, $stock, $poids, $longueur, $largeur, $hauteur);
+            return ProduitFactory::creerProduit('physique', [
+                'nom' => $nom,
+                'description' => $description,
+                'prix' => $prix,
+                'stock' => $stock,
+                'poids' => $poids,
+                'longueur' => $longueur,
+                'largeur' => $largeur,
+                'hauteur' => $hauteur
+            ]);
         } else {
             return null;
         }
