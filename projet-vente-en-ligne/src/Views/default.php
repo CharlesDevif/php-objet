@@ -10,7 +10,25 @@
 
 <body>
     <header>
-        <!-- Ajoutez un menu de navigation si nécessaire -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-2">
+            <a class="navbar-brand" href="/projet-vente-en-ligne/">Mon Application</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/projet-vente-en-ligne/">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/projet-vente-en-ligne/produit">Produits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/projet-vente-en-ligne/categorie">Catégories</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </header>
 
     <main>
