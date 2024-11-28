@@ -17,23 +17,21 @@ class UtilisateurController extends Controller
     public function connexion()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'] ?? '';
-            $motDePasse = $_POST['mot_de_passe'] ?? '';
+            $email = $_POST['email'];
+            $motDePasse = $_POST['mot_de_passe'];
 
             $utilisateur = $this->utilisateurService->connexion($email, $motDePasse);
 
             if ($utilisateur) {
-                $_SESSION['utilisateur'] = $utilisateur->getId();
-                $_SESSION['roles'] = $utilisateur->getRoles();
-
-                header('Location: /projet-vente-en-ligne/utilisateur/dashboard');
+                $_SESSION['utilisateur'] = serialize($utilisateur); // Sérialiser l'objet utilisateur
+                header('Location: /projet-vente-en-ligne/');
                 exit();
             } else {
-                $this->render('utilisateur/connexion', ['erreur' => 'Identifiants incorrects.']);
+                $erreur = 'Email ou mot de passe incorrect.';
             }
-        } else {
-            $this->render('utilisateur/connexion');
         }
+
+        $this->render('utilisateur/connexion', ['erreur' => $erreur ?? null]);
     }
 
     public function inscription()
@@ -57,32 +55,34 @@ class UtilisateurController extends Controller
 }
 
 
-    public function dashboard()
-    {
-        if (!isset($_SESSION['utilisateur'])) {
-            header('Location: /projet-vente-en-ligne/connexion');
-            exit();
-        }
-
-        $utilisateur = $this->utilisateurService->recupererUtilisateurParId($_SESSION['utilisateur']);
-
-        if (!$utilisateur) {
-            session_destroy();
-            header('Location: /projet-vente-en-ligne/utilisateur/connexion');
-            exit();
-        }
-
-        if ($this->utilisateurService->verifierRole($utilisateur, 'ROLE_ADMIN')) {
-            $this->render('utilisateur/admin_dashboard', ['utilisateur' => $utilisateur]);
-        } elseif ($this->utilisateurService->verifierRole($utilisateur, 'ROLE_CLIENT')) {
-            $this->render('utilisateur/client_dashboard', ['utilisateur' => $utilisateur]);
-        } elseif ($this->utilisateurService->verifierRole($utilisateur, 'ROLE_VENDEUR')) {
-            $this->render('utilisateur/vendeur_dashboard', ['utilisateur' => $utilisateur]);
-        } else {
-            http_response_code(403);
-            echo "Accès refusé.";
-        }
+public function dashboard()
+{
+    if (!isset($_SESSION['utilisateur'])) {
+        header('Location: /projet-vente-en-ligne/utilisateur/connexion');
+        exit();
     }
+
+    // Désérialiser l'utilisateur depuis la session
+    $utilisateur = unserialize($_SESSION['utilisateur']);
+
+    if (!$utilisateur || !$utilisateur instanceof \App\Entity\Utilisateur\Utilisateur) {
+        session_destroy();
+        header('Location: /projet-vente-en-ligne/utilisateur/connexion');
+        exit();
+    }
+
+    if ($this->utilisateurService->verifierRole($utilisateur, 'ROLE_ADMIN')) {
+        $this->render('utilisateur/admin_dashboard', ['utilisateur' => $utilisateur]);
+    } elseif ($this->utilisateurService->verifierRole($utilisateur, 'ROLE_CLIENT')) {
+        $this->render('utilisateur/client_dashboard', ['utilisateur' => $utilisateur]);
+    } elseif ($this->utilisateurService->verifierRole($utilisateur, 'ROLE_VENDEUR')) {
+        $this->render('utilisateur/vendeur_dashboard', ['utilisateur' => $utilisateur]);
+    } else {
+        http_response_code(403);
+        echo "Accès refusé.";
+    }
+}
+
 
     public function deconnexion()
     {

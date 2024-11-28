@@ -37,7 +37,7 @@ class ProduitFactory
         $requiredFields = ['nom', 'description', 'prix', 'stock', 'poids', 'longueur', 'largeur', 'hauteur'];
         self::validerDonnees($data, $requiredFields);
 
-        return new ProduitPhysique(
+        $produit = new ProduitPhysique(
             $data['nom'],
             $data['description'],
             $data['prix'],
@@ -47,6 +47,11 @@ class ProduitFactory
             $data['largeur'],
             $data['hauteur']
         );
+        if (isset($data['id'])) {
+            $produit->setId($data['id']);
+        }
+
+        return  $produit;
     }
 
     private static function creerProduitNumerique(array $data): ProduitNumerique
@@ -55,7 +60,7 @@ class ProduitFactory
         $requiredFields = ['nom', 'description', 'prix', 'stock', 'lienTelechargement', 'tailleFichier', 'formatFichier'];
         self::validerDonnees($data, $requiredFields);
 
-        return new ProduitNumerique(
+        $produit = new ProduitNumerique(
             $data['nom'],
             $data['description'],
             $data['prix'],
@@ -64,6 +69,12 @@ class ProduitFactory
             $data['tailleFichier'],
             $data['formatFichier']
         );
+
+        if (isset($data['id'])) {
+            $produit->setId($data['id']);
+        }
+
+        return  $produit;
     }
 
     private static function creerProduitPerissable(array $data): ProduitPerissable
@@ -77,7 +88,7 @@ class ProduitFactory
             $data['dateExpiration'] = new \DateTime($data['dateExpiration']);
         }
 
-        return new ProduitPerissable(
+        $produit = new ProduitPerissable(
             $data['nom'],
             $data['description'],
             $data['prix'],
@@ -85,6 +96,13 @@ class ProduitFactory
             $data['dateExpiration'],
             $data['temperatureStockage']
         );
+
+        
+        if (isset($data['id'])) {
+            $produit->setId($data['id']);
+        }
+
+        return  $produit;
     }
 
     private static function validerDonnees(array $data, array $requiredFields): void

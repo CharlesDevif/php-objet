@@ -115,5 +115,20 @@ abstract class Utilisateur
         $this->roles = array_filter($this->roles, fn($r) => $r !== $role);
     }
 
+    public function verifierRole(array|string $roles): bool
+    {
+        if (is_string($roles)) {
+            $roles = [$roles];
+        }
+
+        foreach ($roles as $role) {
+            if (in_array($role, $this->roles, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     abstract public function afficherRoles(): void;
 }

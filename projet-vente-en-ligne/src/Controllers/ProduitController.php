@@ -17,6 +17,33 @@ class ProduitController extends Controller
     public function __construct()
     {
         $this->produitService = new ProduitService();
+
+        // Vérification d'accès
+        if (!$this->verifierRole(['ROLE_ADMIN', 'ROLE_VENDEUR'])) {
+            header('Location: /projet-vente-en-ligne/');
+            exit();
+        }
+    }
+
+
+    private function verifierRole(array $roles): bool
+    {
+        if (!isset($_SESSION['utilisateur'])) {
+            return false;
+        }
+
+        $utilisateur = unserialize($_SESSION['utilisateur']);
+        if (!$utilisateur instanceof \App\Entity\Utilisateur\Utilisateur) {
+            return false;
+        }
+
+        foreach ($roles as $role) {
+            if (in_array($role, $utilisateur->getRoles())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function index()

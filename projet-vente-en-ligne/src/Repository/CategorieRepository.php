@@ -85,6 +85,74 @@ class CategorieRepository
         }
     }
 
+    public function ajouterProduitCategorie(int $produitId, int $categorieId): void
+    {
+        $sql = "INSERT INTO produit_categorie (produit_id, categorie_id) VALUES (:produit_id, :categorie_id)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':produit_id', $produitId, PDO::PARAM_INT);
+        $stmt->bindValue(':categorie_id', $categorieId, PDO::PARAM_INT);
+
+        if (!$stmt->execute()) {
+            throw new \Exception('Erreur lors de l\'ajout du produit à la catégorie.');
+        }
+    }
+
+    public function recupererProduitsParCategorie(int $categorieId): array
+    {
+        $sql = "
+            SELECT p.*
+            FROM produit p
+            JOIN produit_categorie pc ON p.id = pc.produit_id
+            WHERE pc.categorie_id = :categorie_id
+        ";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':categorie_id', $categorieId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        $produits = [];
+        while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            try {
+                $produits[] = \App\Factory\ProduitFactory::creerProduit($data['type'], [
+                    'nom' => $data['nom'],
+                    'description' => $data['description'],
+                    'prix' => (float)$data['prix'],
+                    'stock' => (int)$data['stock'],
+                    'id' => (int)$data['id'],
+                    // Ajoutez ici les champs spécifiques à chaque type
+                    'poids' => $data['poids'] ?? null,
+                    'longueur' => $data['longueur'] ?? null,
+                    'largeur' => $data['largeur'] ?? null,
+                    'hauteur' => $data['hauteur'] ?? null,
+                    'lienTelechargement' => $data['lienTelechargement'] ?? null,
+                    'tailleFichier' => $data['tailleFichier'] ?? null,
+                    'formatFichier' => $data['formatFichier'] ?? null,
+                    'dateExpiration' => $data['dateExpiration'] ?? null,
+                    'temperatureStockage' => $data['temperatureStockage'] ?? null,
+                ]);
+            } catch (\Exception $e) {
+                // Gérer l'exception si un produit ne peut pas être créé
+                throw new \RuntimeException('Erreur lors de la création du produit : ' . $e->getMessage());
+            }
+        }
+    
+        return $produits;
+    }
+
+    public function supprimerProduitCategorie(int $produitId, int $categorieId): void
+{
+    $sql = "DELETE FROM produit_categorie WHERE produit_id = :produit_id AND categorie_id = :categorie_id";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->bindValue(':produit_id', $produitId, PDO::PARAM_INT);
+    $stmt->bindValue(':categorie_id', $categorieId, PDO::PARAM_INT);
+
+    if (!$stmt->execute()) {
+        throw new \Exception("Erreur lors de la suppression du produit de la catégorie.");
+    }
+}
+
+    
+
+
     /**
      * Supprime une catégorie par son ID.
      *

@@ -49,13 +49,22 @@ class Panier
         return $total;
     }
 
-   public function compterArticles(): int
-{
-    $total = 0;
-    foreach ($this->articles as $article) {
-        $total += $article['quantite'];
+    public function compterArticles(): int
+    {
+        $total = 0;
+        foreach ($this->articles as $article) {
+            $total += $article['quantite'];
+        }
+        return $total;
     }
-    return $total;
-}
 
+    /**
+     * Récupérer les articles dans le panier.
+     *
+     * @return array
+     */
+    public function getArticles(): array
+    {
+        return $this->articles;
+    }
 }

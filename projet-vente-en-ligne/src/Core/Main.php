@@ -46,29 +46,33 @@ class Main
         return isset($_SESSION['utilisateur']);
     }
 
-    private function estRoutePublique(string $controller, string $action): bool
-    {
-        // Liste des routes publiques avec contrôleur et méthode
-        $routesPubliques = [
-            'HomeController' => ['index'],
-            'UtilisateurController' => ['connexion', 'inscription'],
-        ];
+   private function estRoutePublique(string $controller, string $action): bool
+{
+    $routesPubliques = [
+        'HomeController' => ['index'],
+        'CategorieController' => ['index', 'afficherProduitsParCategorie'],
+        'UtilisateurController' => ['connexion', 'inscription'],
+    ];
 
-        return isset($routesPubliques[$controller]) && in_array($action, $routesPubliques[$controller], false);
+    return isset($routesPubliques[$controller]) && in_array($action, $routesPubliques[$controller], false);
+}
+
+
+private function appelerControleur(string $controllerClass, string $action, array $params = [])
+{
+    if (!class_exists($controllerClass)) {
+        var_dump($controllerClass); // Pour voir quel contrôleur est appelé
+        $this->render404();
     }
 
-    private function appelerControleur(string $controllerClass, string $action, array $params = [])
-    {
-        if (!class_exists($controllerClass)) {
-            $this->render404();
-        }
+    $controller = new $controllerClass();
 
-        $controller = new $controllerClass();
-
-        if (!method_exists($controller, $action)) {
-            $this->render404();
-        }
-
-        call_user_func_array([$controller, $action], $params);
+    if (!method_exists($controller, $action)) {
+        var_dump($action); // Pour voir si l'action est correcte
+        $this->render404();
     }
+
+    call_user_func_array([$controller, $action], $params);
+}
+
 }
