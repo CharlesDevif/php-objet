@@ -158,7 +158,7 @@ use App\Entity\Produit\ProduitPerissable;
                                         <td><?= $produit->getDescription() ?></td>
                                         <td><?= $produit->getPrix() ?></td>
                                         <td><?= $produit->getStock() ?></td>
-                                        <td><?= ($produit instanceof ProduitNumerique) ? $produit->getLienTelechargement() : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitNumerique) ? basename($produit->getLienTelechargement()) : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPerissable) ? $produit->getTemperatureStockage() : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPerissable) ? $produit->getDateExpiration()->format('dd-MM-YYYY') : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPhysique) ? $produit->getPoids() : 'null' ?></td>
