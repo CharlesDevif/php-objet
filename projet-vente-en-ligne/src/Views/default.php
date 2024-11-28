@@ -10,7 +10,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-2">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
             <a class="navbar-brand" href="/projet-vente-en-ligne/">Mon Application</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,14 @@
     </main>
 
     <footer>
-        <p>&copy; <?= date('Y'); ?> Mon Application</p>
+        <div class="container py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="/projet-vente-en-ligne/" class="nav-link px-2 text-body-secondary">Accueil</a></li>
+                <li class="nav-item"><a href="/projet-vente-en-ligne/produit" class="nav-link px-2 text-body-secondary">Produits</a></li>
+                <li class="nav-item"><a href="/projet-vente-en-ligne/categorie" class="nav-link px-2 text-body-secondary">Catégories</a></li>
+            </ul>
+            <p class="text-center text-body-secondary">&copy; <?= date('Y'); ?> Mon Application</p>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
