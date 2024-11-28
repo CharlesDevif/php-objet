@@ -7,6 +7,7 @@ use App\Entity\Produit\ProduitNumerique;
 use App\Entity\Produit\ProduitPerissable;
 use App\Service\ProduitService;
 use App\Entity\Produit\ProduitPhysique;
+use Exception;
 
 class ProduitController extends Controller
 {
@@ -29,7 +30,13 @@ class ProduitController extends Controller
     public function add()
     {
         $produit = $this->verificationDesChamps();
-        if (!is_null($produit)) $this->produitService->creerProduit($produit);
+        if (!is_null($produit)) {
+            try {
+                $this->produitService->creerProduit($produit);
+            } catch (Exception $err) {
+                exit($err->getMessage());
+            }
+        }
 
         // Redirection après l'ajout
         header('Location: /projet-vente-en-ligne/produit');
@@ -54,8 +61,10 @@ class ProduitController extends Controller
 
         $nom = strip_tags($_POST['nom']);
         $description = strip_tags($_POST['description']);
-        $prix = (float) strip_tags($_POST['prix']);
-        $stock = (int) strip_tags($_POST['stock']);
+        $prix = strip_tags($_POST['prix']);
+        $stock = strip_tags($_POST['stock']);
+
+        if (!is_numeric($prix) || !is_numeric($stock)) return null;
 
         if (isset($_POST['numerique'])) {
             if ($_FILES['file']['error'] > 0) {
@@ -78,9 +87,9 @@ class ProduitController extends Controller
             return new ProduitNumerique($nom, $description, $prix, $stock, $lienTelechargement, $tailleFichier, $formatFichier);
         } else if (isset($_POST['perissable']) && isset($_POST['dateExpiration']) && isset($_POST['temperature'])) {
             $dateExpiration = \DateTime::createFromFormat("Y-m-d", strip_tags($_POST['dateExpiration']));
-            $temperature = (float) strip_tags($_POST['temperature']);
+            $temperature = strip_tags($_POST['temperature']);
 
-            if (!$dateExpiration) return null;
+            if (!$dateExpiration || !is_numeric($temperature)) return null;
 
             return new ProduitPerissable($nom, $description, $prix, $stock, $dateExpiration, $temperature);
         } else if (isset($_POST['physique']) && isset($_POST['poids']) && isset($_POST['longueur']) && isset($_POST['largeur']) && isset($_POST['hauteur'])) {
@@ -88,6 +97,8 @@ class ProduitController extends Controller
             $longueur = strip_tags($_POST['longueur']);
             $largeur = strip_tags($_POST['largeur']);
             $hauteur = strip_tags($_POST['hauteur']);
+
+            if (!is_numeric($poids) || !is_numeric($longueur) || !is_numeric($largeur) || !is_numeric($hauteur)) return null;
 
             return new ProduitPhysique($nom, $description, $prix, $stock, $poids, $longueur, $largeur, $hauteur);
         } else {

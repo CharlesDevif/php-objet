@@ -19,6 +19,8 @@ class ProduitService
         // Exemple de validation métier avant d'appeler le repository
         if ($produit->getPrix() <= 0) {
             throw new \InvalidArgumentException('Le prix doit être supérieur à 0.');
+        } else if (strlen($produit->getNom()) <= 1) {
+            throw new \InvalidArgumentException("Le nom doit comporter plus d'un caractère.");
         }
 
         return $this->produitRepository->create($produit);
