@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\Utilisateur\Client;
 use App\Repository\UtilisateurRepository;
 use App\Entity\Utilisateur\Utilisateur;
+use App\Entity\Utilisateur\Vendeur;
 
 class UtilisateurService
 {
@@ -16,7 +18,6 @@ class UtilisateurService
 
     public function creerUtilisateur(Utilisateur $utilisateur): int
     {
-        // Vérification de logique métier
         if (!filter_var($utilisateur->getEmail(), FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('L\'adresse email est invalide.');
         }
@@ -37,5 +38,68 @@ class UtilisateurService
     public function supprimerUtilisateur(int $id): void
     {
         $this->utilisateurRepository->delete($id);
+    }
+
+    public function connexion(string $email, string $motDePasse): ?Utilisateur
+    {
+        // Recherche de l'utilisateur par email
+        $utilisateurs = $this->utilisateurRepository->findBy(['email' => $email]);
+    
+        if (count($utilisateurs) === 1) {
+            $utilisateur = $utilisateurs[0];
+    
+            // Vérifie si le mot de passe est correct
+            if (password_verify($motDePasse, $utilisateur->getMotDePasse())) {
+                return $utilisateur;
+            }
+        }
+    
+        return null;
+    }
+    
+    public function inscription(array $donnees, string $type): int
+{
+    // Validation des données
+    if (!filter_var($donnees['email'], FILTER_VALIDATE_EMAIL)) {
+        throw new \InvalidArgumentException('Adresse email invalide.');
+    }
+
+    if (strlen($donnees['mot_de_passe']) < 6) {
+        throw new \InvalidArgumentException('Le mot de passe doit contenir au moins 6 caractères.');
+    }
+
+    // Vérifie si l'utilisateur existe déjà
+    $utilisateurs = $this->utilisateurRepository->findBy(['email' => $donnees['email']]);
+    if (!empty($utilisateurs)) {
+        throw new \InvalidArgumentException('Un utilisateur avec cet email existe déjà.');
+    }
+
+    // Crée l'utilisateur en fonction du type
+    if ($type === 'client') {
+        $utilisateur = new Client(
+            $donnees['nom'],
+            $donnees['email'],
+            password_hash($donnees['mot_de_passe'], PASSWORD_BCRYPT),
+            $donnees['adresse_livraison'] ?? ''
+        );
+    } elseif ($type === 'vendeur') {
+        $utilisateur = new Vendeur(
+            $donnees['nom'],
+            $donnees['email'],
+            password_hash($donnees['mot_de_passe'], PASSWORD_BCRYPT),
+            $donnees['boutique'] ?? '',
+            (float)($donnees['commission'] ?? 0.0)
+        );
+    } else {
+        throw new \InvalidArgumentException('Type d\'utilisateur non valide.');
+    }
+
+    return $this->utilisateurRepository->create($utilisateur);
+}
+
+
+    public function verifierRole(Utilisateur $utilisateur, string $role): bool
+    {
+        return in_array($role, haystack: $utilisateur->getRoles());
     }
 }

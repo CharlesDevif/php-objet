@@ -35,6 +35,16 @@ class ProduitController extends Controller
 
         //$this->produitService->creerProduit($produit);
 
+        // Redirection après l'ajout
+        header('Location: /projet-vente-en-ligne/produit');
+        exit();
+    }
+
+    public function supprimer($id)
+    {
+        $this->produitService->supprimerProduit((int)$id);
+        header('Location: /projet-vente-en-ligne/produit');
+        exit();
         // Redirection vers la liste des produits après ajout
         // header('Location: /projet-vente-en-ligne/produit');
         // exit();

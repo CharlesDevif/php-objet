@@ -38,7 +38,7 @@ class Vendeur extends Utilisateur
 
     public function afficherRoles(): void
     {
-        echo "Roles du vendeur {$this->nom} : " . implode(', ', $this->roles) . "\n";
+        echo "Roles du vendeur {$this->nom} : " . implode(', ', $this->getRoles()) . "\n";
     }
     public function setMotDePasseHache(string $motDePasseHache): void
     {

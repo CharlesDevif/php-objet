@@ -17,6 +17,7 @@ abstract class Utilisateur
         $this->setEmail($email);
         $this->setMotDePasse($motDePasse);
         $this->dateInscription = new \DateTime();
+        $this->roles = ['ROLE_USER']; // Rôle par défaut
     }
 
     // Getters et setters
@@ -26,7 +27,6 @@ abstract class Utilisateur
         return $this->id;
     }
 
-    // Note: setId() method should be public if you need to set the ID from the repository
     public function setId(int $id): void
     {
         $this->id = $id;
@@ -96,6 +96,23 @@ abstract class Utilisateur
         if (!empty($motDePasse)) {
             $this->setMotDePasse($motDePasse);
         }
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function ajouterRole(string $role): void
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    public function retirerRole(string $role): void
+    {
+        $this->roles = array_filter($this->roles, fn($r) => $r !== $role);
     }
 
     abstract public function afficherRoles(): void;

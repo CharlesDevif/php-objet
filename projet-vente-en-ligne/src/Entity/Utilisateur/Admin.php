@@ -37,7 +37,7 @@ class Admin extends Utilisateur
 
     public function afficherRoles(): void
     {
-        echo "Roles de l'administrateur {$this->nom} : " . implode(', ', $this->roles) . "\n";
+        echo "Roles de l'administrateur {$this->nom} : " . implode(', ', $this->getRoles()) . "\n";
     }
     public function setMotDePasseHache(string $motDePasseHache): void
     {

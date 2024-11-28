@@ -8,32 +8,29 @@ class Main
 {
     public function start(string $uri)
     {
+        // Démarrer la session
+        session_start();
+
         // Diviser l'URI en segments
         $params = explode('/', trim($uri, '/'));
 
-        if (!empty($params[0])) {
-            // Premier segment : nom du contrôleur
-            $controllerName = ucfirst(array_shift($params)) . 'Controller';
-            $controllerClass = '\\App\\Controllers\\' . $controllerName;
+        // Vérifier si une route est définie
+        $controllerName = !empty($params[0]) ? ucfirst(array_shift($params)) . 'Controller' : 'HomeController';
+        $controllerClass = '\\App\\Controllers\\' . $controllerName;
+        $action = !empty($params[0]) ? array_shift($params) : 'index';
 
-            if (class_exists($controllerClass)) {
-                $controller = new $controllerClass();
+        // Vérifier les droits d'accès
+        if (!$this->estConnecte() && !$this->estRoutePublique($controllerName, $action)) {
+            // Envoyer vers la méthode connexion du contrôleur Utilisateur
+            $this->appelerControleur('UtilisateurController', 'connexion');
+            return;
+        }
 
-                // Deuxième segment : nom de l'action
-                $action = array_shift($params) ?? 'index';
-
-                if (method_exists($controller, $action)) {
-                    call_user_func_array([$controller, $action], $params);
-                } else {
-                    $this->render404();
-                }
-            } else {
-                $this->render404();
-            }
+        // Appeler le contrôleur et l'action correspondante
+        if (class_exists($controllerClass)) {
+            $this->appelerControleur($controllerClass, $action, $params);
         } else {
-            // Aucun paramètre : contrôleur par défaut
-            $controller = new HomeController();
-            $controller->index();
+            $this->render404();
         }
     }
 
@@ -42,5 +39,35 @@ class Main
         http_response_code(404);
         require_once ROOT . '/src/Views/404.php';
         exit();
+    }
+
+    private function estConnecte(): bool
+    {
+        return isset($_SESSION['utilisateur']);
+    }
+
+    private function estRoutePublique(string $controller, string $action): bool
+    {
+        // Liste des routes publiques avec contrôleur et méthode
+        $routesPubliques = [
+            'UtilisateurController' => ['connexion', 'inscription'],
+        ];
+
+        return isset($routesPubliques[$controller]) && in_array($action, $routesPubliques[$controller]);
+    }
+
+    private function appelerControleur(string $controllerClass, string $action, array $params = [])
+    {
+        if (!class_exists($controllerClass)) {
+            $this->render404();
+        }
+
+        $controller = new $controllerClass();
+
+        if (!method_exists($controller, $action)) {
+            $this->render404();
+        }
+
+        call_user_func_array([$controller, $action], $params);
     }
 }
