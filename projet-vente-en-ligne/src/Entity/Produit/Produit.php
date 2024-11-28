@@ -25,9 +25,6 @@ abstract class Produit
         $this->id = null;
     }
 
-
-  
-
     // Getters et setters pour les propriétés communes
 
     public function getId(): ?int
@@ -41,24 +38,48 @@ abstract class Produit
         $this->id = $id;
     }
 
-    public function getNom(): string { return $this->nom; }
-    public function setNom(string $nom): void { $this->nom = $nom; }
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+    public function setNom(string $nom): void
+    {
+        $this->nom = $nom;
+    }
 
-    public function getDescription(): string { return $this->description; }
-    public function setDescription(string $description): void { $this->description = $description; }
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
 
-    public function getPrix(): float { return $this->prix; }
-    public function setPrix(float $prix): void { $this->prix = $prix; }
+    public function getPrix(): float
+    {
+        return $this->prix;
+    }
+    public function setPrix(float $prix): void
+    {
+        $this->prix = $prix;
+    }
 
-    public function getStock(): int { return $this->stock; }
-    public function setStock(int $stock): void { $this->stock = $stock; }
+    public function getStock(): int
+    {
+        return $this->stock;
+    }
+    public function setStock(int $stock): void
+    {
+        $this->stock = $stock;
+    }
 
-      // Méthode pour vérifier le stock
+    // Méthode pour vérifier le stock
 
-      public function verifierStock(int $quantite): bool
-      {
-          return $this->stock >= $quantite;
-      }
+    public function verifierStock(int $quantite): bool
+    {
+        return $this->stock >= $quantite;
+    }
 
     public function calculerPrixTTC(): float
     {

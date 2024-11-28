@@ -27,6 +27,36 @@ class ProduitController extends Controller
         ]);
     }
 
+    public function modifier(int $produitId)
+    {
+        if (isset($_POST['nom']) && isset($_POST['description']) && isset($_POST['prix']) && isset($_POST['stock'])) {
+            $produit = $this->verificationDesChamps();
+            $produit->setId($produitId);
+
+            if (!is_null($produit)) {
+                try {
+                    $this->produitService->mettreAJourProduit($produit);
+                    header('Location: /projet-vente-en-ligne/produit');
+                } catch (Exception $err) {
+                    exit($err->getMessage());
+                }
+            }
+        } else {
+            $produit = $this->produitService->recupererProduitParId($produitId);
+
+            if (!is_null($produit)) {
+                $this->render('produits/edit', [
+                    'title' => "Modification d'un produit",
+                    'produit' => $produit
+                ]);
+            } else {
+                header('Location: /projet-vente-en-ligne/produit');
+            }
+        }
+
+        die();
+    }
+
     public function add()
     {
         $produit = $this->verificationDesChamps();
