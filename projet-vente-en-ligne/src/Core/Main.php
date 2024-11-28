@@ -9,7 +9,7 @@ class Main
     public function start(string $uri)
     {
         // Diviser l'URI en segments
-        $params = explode('/', $uri);
+        $params = explode('/', trim($uri, '/'));
 
         if (!empty($params[0])) {
             // Premier segment : nom du contrôleur
@@ -25,17 +25,22 @@ class Main
                 if (method_exists($controller, $action)) {
                     call_user_func_array([$controller, $action], $params);
                 } else {
-                    http_response_code(404);
-                    echo "Méthode '$action' introuvable dans le contrôleur '$controllerName'.";
+                    $this->render404();
                 }
             } else {
-                http_response_code(404);
-                echo "Contrôleur '$controllerName' introuvable.";
+                $this->render404();
             }
         } else {
             // Aucun paramètre : contrôleur par défaut
             $controller = new HomeController();
             $controller->index();
         }
+    }
+
+    private function render404()
+    {
+        http_response_code(404);
+        require_once ROOT . '/src/Views/404.php';
+        exit();
     }
 }
