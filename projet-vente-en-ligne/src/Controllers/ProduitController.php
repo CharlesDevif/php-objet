@@ -9,15 +9,18 @@ class ProduitController extends Controller
 {
     private ProduitService $produitService;
 
-    public function __construct(ProduitService $produitService)
+    public function __construct()
     {
-        $this->produitService = $produitService;
+        $this->produitService = new ProduitService();
     }
 
     public function index()
     {
         $produits = $this->produitService->recupererTousLesProduits();
-        $this->render('produit/index', ['produits' => $produits]);
+        $this->render('produits/index', [
+            'title' => 'Produits',
+            'produits' => $produits
+        ]);
     }
 
     public function ajouter()

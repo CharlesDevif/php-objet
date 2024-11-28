@@ -3,6 +3,8 @@ CREATE DATABASE IF NOT EXISTS projet_vente_en_ligne CHARACTER SET utf8mb4 COLLAT
 
 USE projet_vente_en_ligne;
 
+START TRANSACTION;
+
 -- Table 'categorie'
 CREATE TABLE IF NOT EXISTS categorie (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -78,3 +80,5 @@ CREATE TABLE IF NOT EXISTS panier_article (
     FOREIGN KEY (panier_id) REFERENCES panier(id) ON DELETE CASCADE,
     FOREIGN KEY (produit_id) REFERENCES produit(id) ON DELETE CASCADE
 );
+
+COMMIT;

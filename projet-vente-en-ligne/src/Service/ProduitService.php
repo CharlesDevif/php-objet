@@ -9,9 +9,9 @@ class ProduitService
 {
     private ProduitRepository $produitRepository;
 
-    public function __construct(ProduitRepository $produitRepository)
+    public function __construct()
     {
-        $this->produitRepository = $produitRepository;
+        $this->produitRepository = new ProduitRepository();
     }
 
     public function creerProduit(Produit $produit): int
