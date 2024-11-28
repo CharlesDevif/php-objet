@@ -25,7 +25,7 @@ class ProduitController extends Controller
 
     public function add()
     {
-        if (isset($_POST['submit'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             print_r($_POST);
         } else {
             echo "Aucune données dans POST";

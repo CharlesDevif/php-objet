@@ -22,7 +22,7 @@ class Main
         // Vérifier les droits d'accès
         if (!$this->estConnecte() && !$this->estRoutePublique($controllerName, $action)) {
             // Envoyer vers la méthode connexion du contrôleur Utilisateur
-            $this->appelerControleur('UtilisateurController', 'connexion');
+            $this->appelerControleur('\\App\\Controllers\\UtilisateurController', 'connexion');
             return;
         }
 
@@ -50,6 +50,7 @@ class Main
     {
         // Liste des routes publiques avec contrôleur et méthode
         $routesPubliques = [
+            'HomeController' => ['index'],
             'UtilisateurController' => ['connexion', 'inscription'],
         ];
 

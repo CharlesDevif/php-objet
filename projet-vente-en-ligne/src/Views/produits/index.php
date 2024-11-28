@@ -16,7 +16,7 @@
                         <!-- ProduitNumerique -->
                         <div class="col card p-3">
                             <h3>Ajout Produit Numérique</h3>
-                            <form action="produit/add" method="post">
+                            <form action="produit/add" method="POST">
                                 <div class="mb-3">
                                     <label for="inputNomProduit" class="form-label">Nom du produit :</label>
                                     <input type="text" class="form-control" id="inputNomProduit">
