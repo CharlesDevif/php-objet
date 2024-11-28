@@ -1,3 +1,11 @@
+<?php
+
+use App\Entity\Produit\ProduitNumerique;
+use App\Entity\Produit\ProduitPhysique;
+use App\Entity\Produit\ProduitPerissable;
+
+?>
+
 <div class="container p-4">
     <section class="mb-3">
         <h2 class="mb-2">Produits</h2>
@@ -133,6 +141,13 @@
                                     <th scope="col">Description</th>
                                     <th scope="col">Prix</th>
                                     <th scope="col">Stock</th>
+                                    <th scope="col">Fichier</th>
+                                    <th scope="col">Température de stockage</th>
+                                    <th scope="col">Date d'expiration</th>
+                                    <th scope="col">Poids</th>
+                                    <th scope="col">Longueur</th>
+                                    <th scope="col">Largeur</th>
+                                    <th scope="col">Hauteur</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,6 +158,13 @@
                                         <td><?= $produit->getDescription() ?></td>
                                         <td><?= $produit->getPrix() ?></td>
                                         <td><?= $produit->getStock() ?></td>
+                                        <td><?= ($produit instanceof ProduitNumerique) ? $produit->getLienTelechargement() : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitPerissable) ? $produit->getTemperatureStockage() : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitPerissable) ? $produit->getDateExpiration()->format('dd-MM-YYYY') : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getPoids() : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLongueur() : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLargeur() : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getHauteur() : 'null' ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
