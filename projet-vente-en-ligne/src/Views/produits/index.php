@@ -52,7 +52,7 @@ use App\Entity\Produit\ProduitPerissable;
                         <!-- ProduitPerissable -->
                         <div class="col card p-3">
                             <h3>Ajout Produit Périssable</h3>
-                            <form>
+                            <form action="produit/add" method="POST">
                                 <div class="mb-3">
                                     <label for="inputNomProduit" class="form-label">Nom du produit :</label>
                                     <input type="text" class="form-control" id="inputNomProduit" name="nom">
@@ -84,7 +84,7 @@ use App\Entity\Produit\ProduitPerissable;
                         <!-- ProduitPhysique -->
                         <div class="col card p-3">
                             <h3>Ajout Produit Physique</h3>
-                            <form>
+                            <form action="produit/add" method="POST">
                                 <div class="mb-3">
                                     <label for="inputNomProduit" class="form-label">Nom du produit :</label>
                                     <input type="text" class="form-control" id="inputNomProduit" name="nom">
@@ -142,12 +142,12 @@ use App\Entity\Produit\ProduitPerissable;
                                     <th scope="col">Prix</th>
                                     <th scope="col">Stock</th>
                                     <th scope="col">Fichier</th>
-                                    <th scope="col">Température de stockage</th>
+                                    <th scope="col">Température de stockage (°C)</th>
                                     <th scope="col">Date d'expiration</th>
-                                    <th scope="col">Poids</th>
-                                    <th scope="col">Longueur</th>
-                                    <th scope="col">Largeur</th>
-                                    <th scope="col">Hauteur</th>
+                                    <th scope="col">Poids (kg)</th>
+                                    <th scope="col">Longueur (cm)</th>
+                                    <th scope="col">Largeur (cm)</th>
+                                    <th scope="col">Hauteur (cm)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -160,7 +160,7 @@ use App\Entity\Produit\ProduitPerissable;
                                         <td><?= $produit->getStock() ?></td>
                                         <td><?= ($produit instanceof ProduitNumerique) ? basename($produit->getLienTelechargement()) : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPerissable) ? $produit->getTemperatureStockage() : 'null' ?></td>
-                                        <td><?= ($produit instanceof ProduitPerissable) ? $produit->getDateExpiration()->format('dd-MM-YYYY') : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitPerissable) ? $produit->getDateExpiration()->format('d M. Y') : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPhysique) ? $produit->getPoids() : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLongueur() : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLargeur() : 'null' ?></td>

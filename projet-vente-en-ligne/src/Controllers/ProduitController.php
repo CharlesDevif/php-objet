@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Entity\Produit\Produit;
 use App\Entity\Produit\ProduitNumerique;
+use App\Entity\Produit\ProduitPerissable;
 use App\Service\ProduitService;
 use App\Entity\Produit\ProduitPhysique;
 
@@ -28,7 +29,7 @@ class ProduitController extends Controller
     public function add()
     {
         $produit = $this->verificationDesChamps();
-        $this->produitService->creerProduit($produit);
+        if (!is_null($produit)) $this->produitService->creerProduit($produit);
 
         // Redirection après l'ajout
         header('Location: /projet-vente-en-ligne/produit');
@@ -74,11 +75,14 @@ class ProduitController extends Controller
                 return null;
             }
 
-            $produitNumerique = new ProduitNumerique($nom, $description, $prix, $stock, $lienTelechargement, $tailleFichier, $formatFichier);
+            return new ProduitNumerique($nom, $description, $prix, $stock, $lienTelechargement, $tailleFichier, $formatFichier);
+        } else if (isset($_POST['perissable']) && isset($_POST['dateExpiration']) && isset($_POST['temperature'])) {
+            $dateExpiration = \DateTime::createFromFormat("Y-m-d", strip_tags($_POST['dateExpiration']));
+            $temperature = (float) strip_tags($_POST['temperature']);
 
-            return $produitNumerique;
-        } else if (isset($_POST['perissable'])) {
-            return null;
+            if (!$dateExpiration) return null;
+
+            return new ProduitPerissable($nom, $description, $prix, $stock, $dateExpiration, $temperature);
         } else {
             return null;
         }
