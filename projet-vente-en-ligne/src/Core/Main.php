@@ -51,6 +51,7 @@ class Main
         // Liste des routes publiques avec contrôleur et méthode
         $routesPubliques = [
             'HomeController' => ['index'],
+            'ProduitController' => ['index', 'add'],
             'UtilisateurController' => ['connexion', 'inscription'],
         ];
 
