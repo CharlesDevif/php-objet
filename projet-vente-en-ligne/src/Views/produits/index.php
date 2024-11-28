@@ -148,6 +148,7 @@ use App\Entity\Produit\ProduitPerissable;
                                     <th scope="col">Longueur (cm)</th>
                                     <th scope="col">Largeur (cm)</th>
                                     <th scope="col">Hauteur (cm)</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,6 +166,12 @@ use App\Entity\Produit\ProduitPerissable;
                                         <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLongueur() : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLargeur() : 'null' ?></td>
                                         <td><?= ($produit instanceof ProduitPhysique) ? $produit->getHauteur() : 'null' ?></td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Actions disponibles pour les produits.">
+                                                <a href="<?= "produit/modifier/" . $produit->getId() ?>" class="btn btn-warning">Modifier</a>
+                                                <a href="<?= "produit/supprimer/" . $produit->getId() ?>" class="btn btn-danger">Supprimer</a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

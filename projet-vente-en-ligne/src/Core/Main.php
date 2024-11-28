@@ -51,11 +51,11 @@ class Main
         // Liste des routes publiques avec contrôleur et méthode
         $routesPubliques = [
             'HomeController' => ['index'],
-            'ProduitController' => ['index', 'add'],
+            'ProduitController' => ['index', 'add', 'supprimer'],
             'UtilisateurController' => ['connexion', 'inscription'],
         ];
 
-        return isset($routesPubliques[$controller]) && in_array($action, $routesPubliques[$controller]);
+        return isset($routesPubliques[$controller]) && in_array($action, $routesPubliques[$controller], false);
     }
 
     private function appelerControleur(string $controllerClass, string $action, array $params = [])
