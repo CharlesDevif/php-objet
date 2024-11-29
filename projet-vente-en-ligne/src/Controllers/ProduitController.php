@@ -3,10 +3,7 @@
 namespace App\Controllers;
 
 use App\Entity\Produit\Produit;
-use App\Entity\Produit\ProduitNumerique;
-use App\Entity\Produit\ProduitPerissable;
 use App\Service\ProduitService;
-use App\Entity\Produit\ProduitPhysique;
 use App\Factory\ProduitFactory;
 use Exception;
 

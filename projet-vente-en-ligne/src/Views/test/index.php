@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 // Importation des classes nécessaires
 use App\Config\ConfigurationManager;
 use App\Database\DatabaseConnection;
@@ -20,7 +18,7 @@ use App\Entity\Panier;
 
 // === Jour 1 - Tests pour les classes Produit et Utilisateur ===
 
-echo "=== Jour 1 - Tests pour les classes Produit et Utilisateur ===\n\n";
+printf("=== Jour 1 - Tests pour les classes Produit et Utilisateur ===\n\n");
 
 // Tests pour la classe Produit
 echo "--- Tests pour la classe Produit ---\n";
