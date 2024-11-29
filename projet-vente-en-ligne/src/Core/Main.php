@@ -49,7 +49,6 @@ class Main
         $routesPubliques = [
             'HomeController' => ['index'],
             'TestController' => ['index'],
-            'CategorieController' => ['index', 'afficherProduitsParCategorie'],
             'UtilisateurController' => ['connexion', 'inscription'],
         ];
 

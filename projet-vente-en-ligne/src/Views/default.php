@@ -38,6 +38,9 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles())
                             <a class="nav-link" href="/projet-vente-en-ligne/categorie"><i class="fas fa-tags"></i> Catégories</a>
                         </li>
                     <?php endif; ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/projet-vente-en-ligne/test"><i class="fas fa-tags"></i> Tests PHP</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <?php if ($utilisateur): ?>
@@ -68,8 +71,13 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles())
         <div class="container py-3 my-4">
             <ul class="nav justify-content-center border-bottom pb-3 mb-3">
                 <li class="nav-item"><a href="/projet-vente-en-ligne/" class="nav-link px-2 text-body-secondary">Accueil</a></li>
-                <li class="nav-item"><a href="/projet-vente-en-ligne/produit" class="nav-link px-2 text-body-secondary">Produits</a></li>
-                <li class="nav-item"><a href="/projet-vente-en-ligne/categorie" class="nav-link px-2 text-body-secondary">Catégories</a></li>
+                <?php if ($isVendeurOuAdmin): ?>
+                    <li class="nav-item"><a href="/projet-vente-en-ligne/produit" class="nav-link px-2 text-body-secondary">Produits</a></li>
+                <?php endif; ?>
+                <?php if ($isClient || $isVendeurOuAdmin): ?>
+                    <li class="nav-item"><a href="/projet-vente-en-ligne/categorie" class="nav-link px-2 text-body-secondary">Catégories</a></li>
+                <?php endif; ?>
+                <li class="nav-item"><a href="/projet-vente-en-ligne/test" class="nav-link px-2 text-body-secondary">Tests PHP</a></li>
             </ul>
             <p class="text-center text-body-secondary">&copy; <?= date('Y'); ?> Mon Application</p>
         </div>
