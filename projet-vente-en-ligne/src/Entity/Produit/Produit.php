@@ -32,7 +32,6 @@ abstract class Produit
         return $this->id;
     }
 
-    // Modifier la visibilité de setId() à public
     public function setId(int $id): void
     {
         $this->id = $id;

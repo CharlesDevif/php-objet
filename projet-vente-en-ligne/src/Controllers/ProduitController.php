@@ -82,7 +82,7 @@ class ProduitController extends Controller
         die();
     }
 
-    public function add()
+    public function ajouter()
     {
         $produit = $this->verificationDesChamps();
         if (!is_null($produit)) {
@@ -116,7 +116,7 @@ class ProduitController extends Controller
 
         $nom = strip_tags($_POST['nom']);
         $description = strip_tags($_POST['description']);
-        $prix = strip_tags($_POST['prix']);
+        $prix = str_replace(',', '.', strip_tags($_POST['prix']));
         $stock = strip_tags($_POST['stock']);
 
         if (!is_numeric($prix) || !is_numeric($stock)) return null;

@@ -24,7 +24,7 @@ use App\Entity\Produit\ProduitPerissable;
                         <!-- ProduitNumerique -->
                         <div class="col card p-3">
                             <h3>Ajout Produit Numérique</h3>
-                            <form action="produit/add" method="POST" enctype="multipart/form-data">
+                            <form action="produit/ajouter" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="inputNomProduit" class="form-label">Nom du produit :</label>
                                     <input type="text" class="form-control" id="inputNomProduit" name="nom">
@@ -52,7 +52,7 @@ use App\Entity\Produit\ProduitPerissable;
                         <!-- ProduitPerissable -->
                         <div class="col card p-3">
                             <h3>Ajout Produit Périssable</h3>
-                            <form action="produit/add" method="POST">
+                            <form action="produit/ajouter" method="POST">
                                 <div class="mb-3">
                                     <label for="inputNomProduit" class="form-label">Nom du produit :</label>
                                     <input type="text" class="form-control" id="inputNomProduit" name="nom">
@@ -84,7 +84,7 @@ use App\Entity\Produit\ProduitPerissable;
                         <!-- ProduitPhysique -->
                         <div class="col card p-3">
                             <h3>Ajout Produit Physique</h3>
-                            <form action="produit/add" method="POST">
+                            <form action="produit/ajouter" method="POST">
                                 <div class="mb-3">
                                     <label for="inputNomProduit" class="form-label">Nom du produit :</label>
                                     <input type="text" class="form-control" id="inputNomProduit" name="nom">
@@ -136,10 +136,9 @@ use App\Entity\Produit\ProduitPerissable;
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Nom</th>
                                     <th scope="col">Description</th>
-                                    <th scope="col">Prix</th>
+                                    <th scope="col">Prix (€)</th>
                                     <th scope="col">Stock</th>
                                     <th scope="col">Fichier</th>
                                     <th scope="col">Température de stockage (°C)</th>
@@ -154,18 +153,17 @@ use App\Entity\Produit\ProduitPerissable;
                             <tbody>
                                 <?php foreach ($produits as $produit): ?>
                                     <tr>
-                                        <th scope="row"><?= $produit->getId() ?></th>
                                         <td><?= $produit->getNom() ?></td>
                                         <td><?= $produit->getDescription() ?></td>
                                         <td><?= $produit->getPrix() ?></td>
                                         <td><?= $produit->getStock() ?></td>
-                                        <td><?= ($produit instanceof ProduitNumerique) ? basename($produit->getLienTelechargement()) : 'null' ?></td>
-                                        <td><?= ($produit instanceof ProduitPerissable) ? $produit->getTemperatureStockage() : 'null' ?></td>
-                                        <td><?= ($produit instanceof ProduitPerissable) ? $produit->getDateExpiration()->format('d M. Y') : 'null' ?></td>
-                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getPoids() : 'null' ?></td>
-                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLongueur() : 'null' ?></td>
-                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLargeur() : 'null' ?></td>
-                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getHauteur() : 'null' ?></td>
+                                        <td><?= ($produit instanceof ProduitNumerique) ? basename($produit->getLienTelechargement()) : 'x' ?></td>
+                                        <td><?= ($produit instanceof ProduitPerissable) ? $produit->getTemperatureStockage() : 'x' ?></td>
+                                        <td><?= ($produit instanceof ProduitPerissable) ? $produit->getDateExpiration()->format('d M. Y') : 'x' ?></td>
+                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getPoids() : 'x' ?></td>
+                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLongueur() : 'x' ?></td>
+                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getLargeur() : 'x' ?></td>
+                                        <td><?= ($produit instanceof ProduitPhysique) ? $produit->getHauteur() : 'x' ?></td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Actions disponibles pour les produits.">
                                                 <a href="<?= "produit/modifier/" . $produit->getId() ?>" class="btn btn-warning">Modifier</a>

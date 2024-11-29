@@ -67,4 +67,14 @@ class Panier
     {
         return $this->articles;
     }
+
+    /**
+     * Retourne la date de création du Panier.
+     *
+     * @return \DateTime
+     */
+    public function getDateCreation(): \DateTime
+    {
+        return $this->dateCreation;
+    }
 }
