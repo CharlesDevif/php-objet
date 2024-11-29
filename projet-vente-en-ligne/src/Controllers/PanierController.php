@@ -7,8 +7,11 @@ use App\Service\ProduitService;
 
 class PanierController extends Controller
 {
+    private ProduitService $service;
+
     public function __construct()
     {
+        $this->service = new ProduitService();
         if (!isset($_SESSION['panier'])) {
             $_SESSION['panier'] = serialize(new Panier());
         }
@@ -30,15 +33,14 @@ class PanierController extends Controller
             $idProduit = (int)$_POST['id_produit'];
             $quantite = max((int)$_POST['quantite'], 1);
 
-            $produitService = new ProduitService();
-            $produit = $produitService->recupererProduitParId($idProduit);
+            $produit = $this->service->recupererProduitParId($idProduit);
 
             if ($produit && $produit->verifierStock($quantite)) {
                 $panier = $this->getPanier();
                 $panier->ajouterArticle($produit, $quantite);
 
                 // Met à jour le stock
-                $produitService->verifierEtMettreAJourStock($idProduit, $quantite);
+                $this->service->verifierEtMettreAJourStock($idProduit, $quantite);
 
                 // Sauvegarde du panier
                 $this->sauvegarderPanier($panier);
@@ -67,8 +69,7 @@ class PanierController extends Controller
             $idProduit = (int)$_POST['id_produit'];
             $quantite = max((int)$_POST['quantite'], 1);
 
-            $produitService = new ProduitService();
-            $produit = $produitService->recupererProduitParId($idProduit);
+            $produit = $this->service->recupererProduitParId($idProduit);
 
             if ($produit) {
                 $panier = $this->getPanier();
