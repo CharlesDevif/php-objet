@@ -15,55 +15,55 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-    /* Applique Flexbox au body */
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f9f9f9;
-        color: #333;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
+        /* Applique Flexbox au body */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-    /* Assure que le contenu principal prend tout l'espace disponible */
-    main {
-        flex: 1;
-        padding: 20px;
-        background-color: #fff;
-        margin: 20px auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 1800px;
-        width: 100%;
-    }
+        /* Assure que le contenu principal prend tout l'espace disponible */
+        main {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            margin: 0px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1800px;
+            width: 100%;
+        }
 
-    /* Footer */
-    footer {
-        background-color: #333;
-        color: #ddd;
-        padding: 20px 0;
-        text-align: center;
-    }
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #ddd;
+            padding: 20px 0;
+            text-align: center;
+        }
 
-    footer p {
-        margin: 0;
-        font-size: 0.9rem;
-    }
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
 
-    footer .nav {
-        justify-content: center;
-    }
+        footer .nav {
+            justify-content: center;
+        }
 
-    footer .nav-link {
-        color: #ddd;
-        transition: color 0.3s ease-in-out;
-    }
+        footer .nav-link {
+            color: #ddd;
+            transition: color 0.3s ease-in-out;
+        }
 
-    footer .nav-link:hover {
-        color: #fff;
-    }
-</style>
+        footer .nav-link:hover {
+            color: #fff;
+        }
+    </style>
 
 
 
@@ -86,12 +86,11 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
                         <li class="nav-item">
                             <a class="nav-link" href="/projet-vente-en-ligne/produit"><i class="fas fa-box"></i> Produits</a>
                         </li>
-
-                    <?php endif; ?>
-                    <?php if ($isClient || $isVendeurOuAdmin): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/projet-vente-en-ligne/categorie"><i class="fas fa-tags"></i> Catégories</a>
                         </li>
+                    <?php endif; ?>
+                    <?php if ($isClient || $isVendeurOuAdmin): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/projet-vente-en-ligne/commande/historique"><i class="fas fa-history"></i> Historique des commandes</a>
                         </li>
