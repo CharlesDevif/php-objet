@@ -139,6 +139,18 @@ class ProduitRepository
         }
     }
 
+    public function verifierReferencesCommande(int $produitId): int
+    {
+        $sql = "SELECT COUNT(*) FROM commande_article WHERE produit_id = :produit_id";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':produit_id', $produitId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return (int) $stmt->fetchColumn();
+    }
+    
+
+
     public function findAll(): array
     {
         $sql = "SELECT * FROM produit";
@@ -177,6 +189,59 @@ class ProduitRepository
 
         return $produits;
     }
+
+
+    public function findProduitsParCategorie(): array
+{
+    $sql = "
+        SELECT c.nom AS categorie_nom, p.*
+        FROM categorie c
+        LEFT JOIN produit_categorie pc ON c.id = pc.categorie_id
+        LEFT JOIN produit p ON pc.produit_id = p.id
+        ORDER BY c.nom, p.nom
+    ";
+    
+    $stmt = $this->connection->prepare($sql);
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Regrouper les produits par catégorie
+    $categories = [];
+    foreach ($result as $row) {
+        $categorieNom = $row['categorie_nom'];
+        if (!isset($categories[$categorieNom])) {
+            $categories[$categorieNom] = [];
+        }
+
+        // Ajouter le produit à la catégorie correspondante
+        $categories[$categorieNom][] = $this->hydraterProduit($row);
+    }
+
+    return $categories;
+}
+
+public function findProduitsSansCategorie(): array
+{
+    $sql = "
+        SELECT * 
+        FROM produit p
+        LEFT JOIN produit_categorie pc ON p.id = pc.produit_id
+        WHERE pc.categorie_id IS NULL
+    ";
+    
+    $stmt = $this->connection->prepare($sql);
+    $stmt->execute();
+
+    $produits = [];
+    while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $produits[] = $this->hydraterProduit($data);
+    }
+
+    return $produits;
+}
+
+
 
     private function hydraterProduit(array $data): Produit
     {

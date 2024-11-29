@@ -29,13 +29,14 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
                         <li class="nav-item">
                             <a class="nav-link" href="/projet-vente-en-ligne/produit"><i class="fas fa-box"></i> Produits</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/projet-vente-en-ligne/commande/historique"><i class="fas fa-history"></i> Historique des commandes</a>
-                        </li>
+                       
                     <?php endif; ?>
                     <?php if ($isClient || $isVendeurOuAdmin): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/projet-vente-en-ligne/categorie"><i class="fas fa-tags"></i> Catégories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/projet-vente-en-ligne/commande/historique"><i class="fas fa-history"></i> Historique des commandes</a>
                         </li>
                     <?php endif; ?>
                 </ul>

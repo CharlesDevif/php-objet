@@ -19,20 +19,25 @@ class HomeController extends Controller
     public function index()
     {
         try {
-            // Récupérer les produits disponibles
-            $produits = $this->produitService->recupererProduitsAffichables();
-
-            // Transmettre les produits à la vue
+            // Récupérer les catégories et les produits sans catégorie
+            $categories = $this->produitService->recupererProduitsParCategorie();
+            $produitsSansCategorie = $this->produitService->recupererProduitsSansCategorie();
+    
             $this->render('home/index', [
-                'produits' => $produits,
+                'categories' => $categories,
+                'produitsSansCategorie' => $produitsSansCategorie,
             ], 'default');
         } catch (\Exception $e) {
             $_SESSION['error_message'] = "Erreur lors du chargement des produits : " . $e->getMessage();
             $this->render('home/index', [
-                'produits' => [],
+                'categories' => [],
+                'produitsSansCategorie' => [],
             ], 'default');
         }
     }
+    
+
+    
 
     public function ajouterAuPanier()
     {
