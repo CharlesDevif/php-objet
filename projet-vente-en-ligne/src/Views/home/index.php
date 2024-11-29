@@ -27,7 +27,7 @@
             <h2 class="mt-4"><?= htmlspecialchars($categorieNom); ?></h2>
             <div class="row grid-container">
                 <?php foreach ($produits as $produit): ?>
-                    <div class="col-md-4 mb-3 card">
+                    <div class="col-md-4 mb-3 card mx-auto">
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($produit->getNom()); ?></h5>
                             <p class="card-text"><?= htmlspecialchars($produit->getDescription()); ?></p>
@@ -61,7 +61,7 @@
         <h2 class="mt-4">Produits sans catégorie</h2>
         <div class="row grid-container">
             <?php foreach ($produitsSansCategorie as $produit): ?>
-                <div class="col-md-4 mb-3 card">
+                <div class="col-md-4 mb-3 card mx-auto">
                     <div class="card-body">
                         <h5 class="card-title"><?= htmlspecialchars($produit->getNom()); ?></h5>
                         <p class="card-text"><?= htmlspecialchars($produit->getDescription()); ?></p>
@@ -184,7 +184,7 @@
         transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
     }
 
-  
+
 
     /* Search bar */
     #search {
@@ -229,7 +229,7 @@
 
 <script>
     // Barre de recherche
-    document.getElementById('search').addEventListener('input', function () {
+    document.getElementById('search').addEventListener('input', function() {
         const searchText = this.value.toLowerCase();
         document.querySelectorAll('.card').forEach(card => {
             const productName = card.querySelector('.card-title').textContent.toLowerCase();
