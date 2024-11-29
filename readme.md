@@ -30,13 +30,11 @@ Pour les relancer : `docker-compose start`.
 
 Une fois les conteneurs lancés, il suffit de vous rendre sur le [lien suivant](http://localhost:8080/projet-vente-en-ligne/).
 
-Pour les [tests réalisés](http://localhost:8080/projet-vente-en-ligne/tests.php)
+Pour les [tests réalisés](http://localhost:8080/projet-vente-en-ligne/test)
 
 ## Mise en place d'un routeur
 
 Afin de pouvoir naviguer correctement, il m'a fallu mettre à jour le fichier `apache2.conf` afin d'y ajouter un paramètre qui nous permettrai de naviguer facilement parmis nos différentes vues.
-
-De ce fait, la page d'accueil se situe a l'adresse suivante : `http://localhost:8080/projet-vente-en-ligne?p=home` ou `http://localhost:8080/projet-vente-en-ligne` ou `http://localhost:8080/projet-vente-en-ligne/index.php?p=home`.
 
 ## Collaborateurs
 
