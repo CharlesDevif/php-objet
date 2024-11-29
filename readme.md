@@ -2,9 +2,9 @@
 
 Projet pédagogique dont le but est de revoir le paradigme de la programmation orientée objet (POO).
 
-Développé par Charles Devif.
+Développé par Charles Devif & Vincenzo Cusma.
 
-## Environnement de test
+## Environnement de développement / test
 
 Il est impératif d'utiliser `Docker` pour exécuter cet environnement.
 
@@ -31,13 +31,9 @@ Pour les relancer : `docker-compose start`.
 Une fois les conteneurs lancés, il suffit de vous rendre sur le [lien suivant](http://localhost:8080/projet-vente-en-ligne/).
 
 - Pour les [tests réalisés](http://localhost:8080/projet-vente-en-ligne/test)
-
 - Pour [PHPMyAdmin](http://localhost:8081/).
 
-## Mise en place d'un routeur
+## Fonctionnalités non implémentées
 
-Afin de pouvoir naviguer correctement, il m'a fallu mettre à jour le fichier `apache2.conf` afin d'y ajouter un paramètre qui nous permettrai de naviguer facilement parmis nos différentes vues.
-
-## Collaborateurs
-
-- Vincenzo Cusma
+- Panel d'administration
+- IHM / Controller du paiement
