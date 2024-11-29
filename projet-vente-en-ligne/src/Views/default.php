@@ -14,7 +14,6 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
     <title>Mon Application - <?= isset($title) ? $title : "Accueil" ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     <style>
         /* Global Styles */
@@ -59,7 +58,7 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
         main {
             padding: 20px;
             background-color: #fff;
-            margin: 20px auto;
+            margin: 0px auto;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             min-height: 100vh;
