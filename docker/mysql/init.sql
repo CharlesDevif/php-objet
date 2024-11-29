@@ -100,6 +100,20 @@ CREATE TABLE IF NOT EXISTS commande_article (
     FOREIGN KEY (produit_id) REFERENCES produit(id)
 );
 
+INSERT INTO produit (nom, description, prix, stock, type, poids, longueur, largeur, hauteur, lienTelechargement, tailleFichier, formatFichier, dateExpiration, temperatureStockage)
+VALUES
+-- Produits physiques
+('Laptop Pro 2023', 'Un ordinateur portable haut de gamme.', 1499.99, 10, 'physique', 1.5, 35.0, 24.0, 2.0, NULL, NULL, NULL, NULL, NULL),
+('Casque Audio', 'Casque audio Bluetooth avec réduction de bruit.', 199.99, 25, 'physique', 0.3, 18.0, 16.0, 10.0, NULL, NULL, NULL, NULL, NULL),
+('Smartphone X', 'Smartphone dernière génération avec écran OLED.', 999.99, 50, 'physique', 0.2, 15.0, 7.0, 0.8, NULL, NULL, NULL, NULL, NULL),
 
+-- Produits numériques
+('E-book Python', 'Guide complet pour apprendre Python.', 19.99, 100, 'numerique', NULL, NULL, NULL, NULL, 'https://example.com/ebooks/python-guide', 2.5, 'pdf', NULL, NULL),
+('Logiciel Pro', 'Licence pour un logiciel professionnel.', 299.99, 500, 'numerique', NULL, NULL, NULL, NULL, 'https://example.com/software/license', 0.1, 'exe', NULL, NULL),
+
+-- Produits périssables
+('Lait Frais', 'Bouteille de lait frais (1 litre).', 1.99, 200, 'perissable', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-31', 4.0),
+('Fromage Brie', 'Fromage Brie français.', 6.49, 50, 'perissable', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-06-30', 8.0),
+('Jus d\'Orange', 'Jus d\'orange bio 100% pur jus.', 3.99, 100, 'perissable', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-15', 4.0);
 
 COMMIT;
