@@ -14,7 +14,6 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
     <title>Mon Application - <?= isset($title) ? $title : "Accueil" ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <style>
     /* Applique Flexbox au body */
     body {
@@ -27,31 +26,6 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
         min-height: 100vh;
     }
 
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .nav-link {
-            color: #ddd;
-            transition: color 0.3s ease-in-out;
-        }
-
-        .nav-link:hover {
-            color: #fff;
-        }
-
-        /* Main Content */
-        main {
-            padding: 20px;
-            background-color: #fff;
-            margin: 0px auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            min-height: 100vh;
-            /* Pour forcer le contenu à remplir l'écran */
-        }
     /* Assure que le contenu principal prend tout l'espace disponible */
     main {
         flex: 1;
@@ -60,7 +34,7 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
         margin: 20px auto;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 1500px;
+        max-width: 1800px;
         width: 100%;
     }
 
@@ -81,15 +55,16 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
         justify-content: center;
     }
 
-        footer .nav-link {
-            color: #ddd;
-            transition: color 0.3s ease-in-out;
-        }
+    footer .nav-link {
+        color: #ddd;
+        transition: color 0.3s ease-in-out;
+    }
 
     footer .nav-link:hover {
         color: #fff;
     }
 </style>
+
 
 
 
