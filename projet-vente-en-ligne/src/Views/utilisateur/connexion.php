@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-4">
+<section class="container mt-4">
     <h1>Connexion</h1>
     <?php if (!empty($erreur)): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($erreur); ?></div>
@@ -26,7 +17,4 @@
     <p class="mt-3">
         Pas encore inscrit ? <a href="/projet-vente-en-ligne/utilisateur/inscription">Créer un compte</a>
     </p>
-</div>
-
-</body>
-</html>
+</section>

@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-4">
+<section class="container mt-3">
     <h1>Inscription</h1>
     <?php if (!empty($erreur)): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($erreur); ?></div>
@@ -53,9 +44,9 @@
     <p class="mt-3">
         Déjà inscrit ? <a href="/projet-vente-en-ligne/utilisateur/connexion">Se connecter</a>
     </p>
-</div>
+</section>
 <script>
-    document.getElementById('type').addEventListener('change', function () {
+    document.getElementById('type').addEventListener('change', function() {
         const clientFields = document.getElementById('client-fields');
         const vendeurFields = document.getElementById('vendeur-fields');
 
@@ -68,6 +59,3 @@
         }
     });
 </script>
-
-</body>
-</html>
