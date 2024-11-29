@@ -44,13 +44,14 @@ class CategorieService
     }
 
     public function recupererProduitsParCategorie(int $categorieId): array
-{
-    return $this->categorieRepository->recupererProduitsParCategorie($categorieId);
-}
-public function supprimerProduitDeCategorie(int $produitId, int $categorieId): void
-{
-    $this->categorieRepository->supprimerProduitCategorie($produitId, $categorieId);
-}
+    {
+        return $this->categorieRepository->recupererProduitsParCategorie($categorieId);
+    }
+
+    public function supprimerProduitDeCategorie(int $produitId, int $categorieId): void
+    {
+        $this->categorieRepository->supprimerProduitCategorie($produitId, $categorieId);
+    }
 
 
     public function supprimerCategorie(int $id): void

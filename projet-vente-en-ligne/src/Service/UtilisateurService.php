@@ -44,16 +44,16 @@ class UtilisateurService
     {
         // Recherche de l'utilisateur par email
         $utilisateurs = $this->utilisateurRepository->findBy(['email' => $email]);
-    
+
         if (count($utilisateurs) === 1) {
             $utilisateur = $utilisateurs[0];
-    
+
             // Vérifie si le mot de passe est correct
             if ($utilisateur->verifierMotDePasse($motDePasse)) {
                 return $utilisateur;
             }
         }
-    
+
         return null;
     }
 
