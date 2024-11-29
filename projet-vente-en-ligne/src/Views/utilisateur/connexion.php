@@ -12,7 +12,7 @@
             <label for="mot_de_passe" class="form-label">Mot de passe</label>
             <input type="password" name="mot_de_passe" id="mot_de_passe" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Se connecter</button>
+        <button type="submit" name="connexion" class="btn btn-primary">Se connecter</button>
     </form>
     <p class="mt-3">
         Pas encore inscrit ? <a href="/projet-vente-en-ligne/utilisateur/inscription">Créer un compte</a>

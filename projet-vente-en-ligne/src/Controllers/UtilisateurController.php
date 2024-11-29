@@ -16,7 +16,7 @@ class UtilisateurController extends Controller
 
     public function connexion()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
             $email = $_POST['email'];
             $motDePasse = $_POST['mot_de_passe'];
 
