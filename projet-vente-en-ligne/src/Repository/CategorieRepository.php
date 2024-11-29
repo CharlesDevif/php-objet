@@ -28,7 +28,7 @@ class CategorieRepository
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(':nom', $categorie->getNom());
         $stmt->bindValue(':description', $categorie->getDescription());
-    
+
         if ($stmt->execute()) {
             $id = (int)$this->connection->lastInsertId();
             $categorie->setId($id);
@@ -37,7 +37,7 @@ class CategorieRepository
             throw new \Exception('Erreur lors de la création de la catégorie.');
         }
     }
-    
+
 
     /**
      * Récupère une catégorie par son ID.
@@ -108,7 +108,7 @@ class CategorieRepository
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(':categorie_id', $categorieId, PDO::PARAM_INT);
         $stmt->execute();
-    
+
         $produits = [];
         while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
             try {
@@ -134,24 +134,21 @@ class CategorieRepository
                 throw new \RuntimeException('Erreur lors de la création du produit : ' . $e->getMessage());
             }
         }
-    
+
         return $produits;
     }
 
     public function supprimerProduitCategorie(int $produitId, int $categorieId): void
-{
-    $sql = "DELETE FROM produit_categorie WHERE produit_id = :produit_id AND categorie_id = :categorie_id";
-    $stmt = $this->connection->prepare($sql);
-    $stmt->bindValue(':produit_id', $produitId, PDO::PARAM_INT);
-    $stmt->bindValue(':categorie_id', $categorieId, PDO::PARAM_INT);
+    {
+        $sql = "DELETE FROM produit_categorie WHERE produit_id = :produit_id AND categorie_id = :categorie_id";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':produit_id', $produitId, PDO::PARAM_INT);
+        $stmt->bindValue(':categorie_id', $categorieId, PDO::PARAM_INT);
 
-    if (!$stmt->execute()) {
-        throw new \Exception("Erreur lors de la suppression du produit de la catégorie.");
+        if (!$stmt->execute()) {
+            throw new \Exception("Erreur lors de la suppression du produit de la catégorie.");
+        }
     }
-}
-
-    
-
 
     /**
      * Supprime une catégorie par son ID.

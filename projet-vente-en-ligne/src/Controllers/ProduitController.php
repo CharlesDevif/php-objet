@@ -22,7 +22,6 @@ class ProduitController extends Controller
         }
     }
 
-
     private function verifierRole(array $roles): bool
     {
         if (!isset($_SESSION['utilisateur'])) {

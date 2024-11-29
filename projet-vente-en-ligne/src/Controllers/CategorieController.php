@@ -49,24 +49,20 @@ class CategorieController extends Controller
     }
 
     public function produits(int $categorieId)
-{
-    $categorie = $this->categorieService->recupererCategorieParId($categorieId);
-    $produits = $this->categorieService->recupererProduitsParCategorie($categorieId);
+    {
+        $categorie = $this->categorieService->recupererCategorieParId($categorieId);
+        $produits = $this->categorieService->recupererProduitsParCategorie($categorieId);
 
-    // Récupérer l'utilisateur connecté depuis la session
-    $utilisateur = isset($_SESSION['utilisateur']) ? unserialize($_SESSION['utilisateur']) : null;
+        // Récupérer l'utilisateur connecté depuis la session
+        $utilisateur = isset($_SESSION['utilisateur']) ? unserialize($_SESSION['utilisateur']) : null;
 
-    $this->render('categories/produits', [
-        'title' => 'Produits dans la catégorie',
-        'categorie' => $categorie,
-        'produits' => $produits,
-        'utilisateur' => $utilisateur, 
-    ]);
-}
-
-    
-
-    
+        $this->render('categories/produits', [
+            'title' => 'Produits dans la catégorie',
+            'categorie' => $categorie,
+            'produits' => $produits,
+            'utilisateur' => $utilisateur,
+        ]);
+    }
 
     public function add()
     {
@@ -123,18 +119,18 @@ class CategorieController extends Controller
     public function ajouterProduit(int $categorieId)
     {
         $categorie = $this->categorieService->recupererCategorieParId($categorieId);
-    
+
         if (!$categorie) {
             header('Location: /projet-vente-en-ligne/categorie');
             exit();
         }
-    
+
         $produitService = new \App\Service\ProduitService();
         $produitsDisponibles = $produitService->recupererTousLesProduits();
-    
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $produitId = (int)$_POST['produit_id'];
-    
+
             try {
                 $this->categorieService->associerProduitCategorie($produitId, $categorieId);
                 header("Location: /projet-vente-en-ligne/categorie/produits/$categorieId");
@@ -149,7 +145,7 @@ class CategorieController extends Controller
                 return;
             }
         }
-    
+
         $this->render('categories/ajouterProduit', [
             'title' => 'Ajouter un produit à la catégorie',
             'categorie' => $categorie,
@@ -166,7 +162,7 @@ class CategorieController extends Controller
         } catch (\Exception $e) {
             $categorie = $this->categorieService->recupererCategorieParId($categorieId);
             $produits = $this->categorieService->recupererProduitsParCategorie($categorieId);
-    
+
             $this->render('categories/produits', [
                 'title' => 'Produits dans la catégorie',
                 'categorie' => $categorie,
@@ -175,31 +171,27 @@ class CategorieController extends Controller
             ]);
         }
     }
-    
 
-    
 
-public function afficherProduitsParCategorie(int $categorieId)
-{
-    $categorie = $this->categorieService->recupererCategorieParId($categorieId);
 
-    if (!$categorie) {
-        header('Location: /projet-vente-en-ligne/categorie');
-        exit();
+
+    public function afficherProduitsParCategorie(int $categorieId)
+    {
+        $categorie = $this->categorieService->recupererCategorieParId($categorieId);
+
+        if (!$categorie) {
+            header('Location: /projet-vente-en-ligne/categorie');
+            exit();
+        }
+
+        $produits = $this->categorieService->recupererProduitsParCategorie($categorieId);
+
+        $this->render('categories/produits', [
+            'title' => "Produits de la catégorie : " . htmlspecialchars($categorie->getNom()),
+            'categorie' => $categorie,
+            'produits' => $produits,
+        ]);
     }
-
-    $produits = $this->categorieService->recupererProduitsParCategorie($categorieId);
-
-    $this->render('categories/produits', [
-        'title' => "Produits de la catégorie : " . htmlspecialchars($categorie->getNom()),
-        'categorie' => $categorie,
-        'produits' => $produits,
-    ]);
-}
-
-
-
-
 
     public function supprimer(int $id)
     {

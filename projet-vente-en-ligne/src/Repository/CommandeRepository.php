@@ -52,31 +52,30 @@ class CommandeRepository
     }
 
     public function recupererCommandeParId(int $commandeId, int $utilisateurId): ?array
-{
-    $sql = "SELECT * FROM commande WHERE id = :commande_id AND utilisateur_id = :utilisateur_id";
-    $stmt = $this->connection->prepare($sql);
-    $stmt->bindValue(':commande_id', $commandeId, \PDO::PARAM_INT);
-    $stmt->bindValue(':utilisateur_id', $utilisateurId, \PDO::PARAM_INT);
-    $stmt->execute();
-    $commande = $stmt->fetch(\PDO::FETCH_ASSOC);
+    {
+        $sql = "SELECT * FROM commande WHERE id = :commande_id AND utilisateur_id = :utilisateur_id";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':commande_id', $commandeId, \PDO::PARAM_INT);
+        $stmt->bindValue(':utilisateur_id', $utilisateurId, \PDO::PARAM_INT);
+        $stmt->execute();
+        $commande = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-    if (!$commande) {
-        return null;
-    }
+        if (!$commande) {
+            return null;
+        }
 
-    // Récupérer les articles associés à la commande
-    $sql = "SELECT p.nom, ca.quantite, ca.prix_unitaire 
+        // Récupérer les articles associés à la commande
+        $sql = "SELECT p.nom, ca.quantite, ca.prix_unitaire 
             FROM commande_article ca
             JOIN produit p ON ca.produit_id = p.id
             WHERE ca.commande_id = :commande_id";
-    $stmt = $this->connection->prepare($sql);
-    $stmt->bindValue(':commande_id', $commandeId, \PDO::PARAM_INT);
-    $stmt->execute();
-    $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':commande_id', $commandeId, \PDO::PARAM_INT);
+        $stmt->execute();
+        $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-    $commande['articles'] = $articles;
+        $commande['articles'] = $articles;
 
-    return $commande;
-}
-
+        return $commande;
+    }
 }

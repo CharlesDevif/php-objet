@@ -24,7 +24,7 @@ class UtilisateurController extends Controller
 
             if ($utilisateur) {
                 $_SESSION['utilisateur'] = serialize($utilisateur); // Sérialiser l'objet utilisateur
-                
+
                 header('Location: /projet-vente-en-ligne/');
                 exit();
             } else {
@@ -48,7 +48,7 @@ class UtilisateurController extends Controller
                 exit();
             } catch (\InvalidArgumentException $e) {
                 // Affiche les erreurs de validation
-                $this->render('utilisateur/inscription', ['erreur' => $e->getMessage()]);
+                $this->render('utilisateur/inscription', ['erreur' => $e->getMessage(), 'title' => 'Inscription']);
             }
         } else {
             $this->render('utilisateur/inscription', ['title' => 'Inscription']);
@@ -83,7 +83,6 @@ class UtilisateurController extends Controller
             echo "Accès refusé.";
         }
     }
-
 
     public function deconnexion()
     {

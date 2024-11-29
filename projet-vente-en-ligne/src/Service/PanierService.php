@@ -20,7 +20,6 @@ class PanierService
         $this->panierRepository = new PanierRepository();
         $this->produitService = new ProduitService();
         $this->commandeRepository = new CommandeRepository();
-
     }
 
     public function recupererOuCreerPanierPourUtilisateur(int $utilisateurId): int
@@ -113,36 +112,36 @@ class PanierService
     {
         // Récupérer directement les données brutes du panier
         $articles = $this->panierRepository->recupererArticlesDuPanier($panierId);
-    
+
         // Compter le total des quantités
         $total = 0;
         foreach ($articles as $article) {
             $total += $article['quantite'];
         }
-    
+
         return $total;
     }
-    
+
 
 
     public function recupererArticles(int $panierId): array
-{
-    $articles = $this->panierRepository->recupererArticlesDuPanier($panierId);
+    {
+        $articles = $this->panierRepository->recupererArticlesDuPanier($panierId);
 
-    // Convertir les données brutes en objets
-    $resultat = [];
-    foreach ($articles as $article) {
-        $produit = $this->produitService->recupererProduitParId($article['produit_id']);
-        if ($produit) {
-            $resultat[] = [
-                'produit' => $produit,
-                'quantite' => $article['quantite'],
-            ];
+        // Convertir les données brutes en objets
+        $resultat = [];
+        foreach ($articles as $article) {
+            $produit = $this->produitService->recupererProduitParId($article['produit_id']);
+            if ($produit) {
+                $resultat[] = [
+                    'produit' => $produit,
+                    'quantite' => $article['quantite'],
+                ];
+            }
         }
-    }
 
-    return $resultat;
-}
+        return $resultat;
+    }
 
 
     public function calculerTotal(array $articles): float

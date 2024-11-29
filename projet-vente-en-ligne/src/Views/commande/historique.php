@@ -21,8 +21,7 @@
                             <td><?= number_format($commande['total'], 2, ',', ' ') . ' €'; ?></td>
                             <td>
                                 <span class="badge 
-                                    <?= $commande['etat'] === 'livree' ? 'bg-success' : 
-                                        ($commande['etat'] === 'en_preparation' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">
+                                    <?= $commande['etat'] === 'livree' ? 'bg-success' : ($commande['etat'] === 'en_preparation' ? 'bg-warning text-dark' : 'bg-secondary'); ?>">
                                     <?= htmlspecialchars($commande['etat']); ?>
                                 </span>
                             </td>
@@ -44,8 +43,6 @@
 </div>
 
 <style>
-   
-
     /* Table */
     .table {
         border-radius: 8px;

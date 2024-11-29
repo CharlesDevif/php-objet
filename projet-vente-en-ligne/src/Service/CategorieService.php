@@ -53,7 +53,6 @@ class CategorieService
         $this->categorieRepository->supprimerProduitCategorie($produitId, $categorieId);
     }
 
-
     public function supprimerCategorie(int $id): void
     {
         $this->categorieRepository->delete($id);

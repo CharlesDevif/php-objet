@@ -24,7 +24,6 @@ class PanierController extends Controller
             exit();
         }
     }
-    
 
     public function ajouter()
     {
@@ -59,12 +58,12 @@ class PanierController extends Controller
     public function index()
     {
         $this->verifierUtilisateur();
-    
+
         try {
             $utilisateur = unserialize($_SESSION['utilisateur']);
             $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
             $articles = $this->panierService->recupererArticles($panierId);
-    
+
             $this->render('panier/index', [
                 'articles' => $articles,
                 'total' => $this->panierService->calculerTotal($articles),
@@ -75,8 +74,6 @@ class PanierController extends Controller
             exit();
         }
     }
-    
-    
 
     public function retirer()
     {
@@ -124,13 +121,13 @@ class PanierController extends Controller
     public function confirmationCommande()
     {
         $this->verifierUtilisateur();
-    
+
         try {
             $utilisateur = unserialize($_SESSION['utilisateur']);
             $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
             $articles = $this->panierService->recupererArticles($panierId);
             $total = $this->panierService->calculerTotal($articles);
-    
+
             // Rendre la vue de confirmation
             $this->render('panier/confirmation', [
                 'articles' => $articles,
@@ -142,19 +139,18 @@ class PanierController extends Controller
             exit();
         }
     }
-    
 
     public function validerCommande()
     {
         $this->verifierUtilisateur();
-    
+
         try {
             $utilisateur = unserialize($_SESSION['utilisateur']);
             $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
-    
+
             // Passer la commande
             $this->panierService->passerCommande($utilisateur->getId(), $panierId);
-    
+
             $_SESSION['success_message'] = 'Votre commande a été passée avec succès.';
             header('Location: /projet-vente-en-ligne/commande/historique');
             exit();
@@ -164,6 +160,4 @@ class PanierController extends Controller
             exit();
         }
     }
-    
-
 }

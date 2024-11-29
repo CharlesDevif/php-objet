@@ -22,7 +22,7 @@ class HomeController extends Controller
             // Récupérer les catégories et les produits sans catégorie
             $categories = $this->produitService->recupererProduitsParCategorie();
             $produitsSansCategorie = $this->produitService->recupererProduitsSansCategorie();
-    
+
             $this->render('home/index', [
                 'categories' => $categories,
                 'produitsSansCategorie' => $produitsSansCategorie,
@@ -35,9 +35,6 @@ class HomeController extends Controller
             ], 'default');
         }
     }
-    
-
-    
 
     public function ajouterAuPanier()
     {
@@ -46,8 +43,6 @@ class HomeController extends Controller
             $quantite = 1; // Par défaut, ajouter 1 unité
 
             try {
-               
-
                 $utilisateur = unserialize($_SESSION['utilisateur']);
                 $utilisateurId = $utilisateur->getId();
 
@@ -73,5 +68,4 @@ class HomeController extends Controller
         header('Location: /projet-vente-en-ligne/');
         exit();
     }
-    
 }

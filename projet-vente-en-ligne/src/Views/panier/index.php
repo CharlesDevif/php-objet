@@ -67,5 +67,3 @@
         <div class="alert alert-info text-center mt-4">Votre panier est vide.</div>
     <?php endif; ?>
 </div>
-
-

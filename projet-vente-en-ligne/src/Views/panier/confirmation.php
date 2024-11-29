@@ -44,7 +44,8 @@
         font-family: 'Arial', sans-serif;
     }
 
-    h1, h2 {
+    h1,
+    h2 {
         color: #333;
     }
 
@@ -69,13 +70,15 @@
         padding: 10px 15px;
     }
 
-    .btn-outline-success, .btn-outline-secondary {
+    .btn-outline-success,
+    .btn-outline-secondary {
         padding: 10px 20px;
         font-size: 1rem;
         transition: transform 0.3s ease-in-out;
     }
 
-    .btn-outline-success:hover, .btn-outline-secondary:hover {
+    .btn-outline-success:hover,
+    .btn-outline-secondary:hover {
         transform: scale(1.05);
     }
 

@@ -55,7 +55,6 @@ class Main
         return isset($routesPubliques[$controller]) && in_array($action, $routesPubliques[$controller], false);
     }
 
-
     private function appelerControleur(string $controllerClass, string $action, array $params = [])
     {
         if (!class_exists($controllerClass)) {

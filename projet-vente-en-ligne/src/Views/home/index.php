@@ -206,8 +206,6 @@
             padding: 20px;
         }
     }
-
-   
 </style>
 
 

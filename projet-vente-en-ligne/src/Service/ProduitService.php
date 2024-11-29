@@ -49,25 +49,23 @@ class ProduitService
     public function supprimerProduit(int $id): void
     {
         $references = $this->produitRepository->verifierReferencesCommande($id);
-    
+
         if ($references > 0) {
             throw new \Exception("Impossible de supprimer le produit. Il est référencé dans des commandes.");
         }
-    
+
         $this->produitRepository->delete($id);
     }
 
     public function recupererProduitsParCategorie(): array
-{
-    return $this->produitRepository->findProduitsParCategorie();
-}
+    {
+        return $this->produitRepository->findProduitsParCategorie();
+    }
 
-public function recupererProduitsSansCategorie(): array
-{
-    return $this->produitRepository->findProduitsSansCategorie();
-}
-
-    
+    public function recupererProduitsSansCategorie(): array
+    {
+        return $this->produitRepository->findProduitsSansCategorie();
+    }
 
     /**
      * Récupérer des produits pour affichage (e.g., en promotion ou les plus populaires).

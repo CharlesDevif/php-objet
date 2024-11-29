@@ -7,7 +7,7 @@
             <p><strong>Date :</strong> <?= htmlspecialchars($commande['date_creation']); ?></p>
             <p><strong>Total :</strong> <span class="badge bg-success"><?= number_format($commande['total'], 2, ',', ' ') . ' €'; ?></span></p>
             <p><strong>État :</strong> <span class="badge <?= $commande['etat'] === 'livrée' ? 'bg-success' : ($commande['etat'] === 'en_cours' ? 'bg-warning' : 'bg-info'); ?>">
-                <?= htmlspecialchars(ucfirst($commande['etat'])); ?></span>
+                    <?= htmlspecialchars(ucfirst($commande['etat'])); ?></span>
             </p>
         </div>
     </div>

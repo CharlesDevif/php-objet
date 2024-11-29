@@ -64,14 +64,7 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
             color: #fff;
         }
     </style>
-
-
-
-
-
 </head>
-
-
 
 <body>
     <header>
@@ -95,6 +88,9 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
                             <a class="nav-link" href="/projet-vente-en-ligne/commande/historique"><i class="fas fa-history"></i> Historique des commandes</a>
                         </li>
                     <?php endif; ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/projet-vente-en-ligne/test"><i class="fa-solid fa-vials"></i> Tests PHP</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <?php if ($utilisateur): ?>
@@ -138,6 +134,7 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
                 <?php if ($isClient || $isVendeurOuAdmin): ?>
                     <li class="nav-item"><a href="/projet-vente-en-ligne/categorie" class="nav-link">Catégories</a></li>
                 <?php endif; ?>
+                <li class="nav-item"><a href="/projet-vente-en-ligne/test" class="nav-link">Tests PHP</a></li>
             </ul>
             <p class="text-center">&copy; <?= date('Y'); ?> Mon Application</p>
         </div>
