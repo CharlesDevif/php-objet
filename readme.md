@@ -37,3 +37,4 @@ Une fois les conteneurs lancés, il suffit de vous rendre sur le [lien suivant](
 
 - Panel d'administration
 - IHM / Controller du paiement
+- Gestion complète du fichier de la classe **ProduitNumérique** (ajout seulement, et lors d'une modification, nécessite obligatoirement d'ajouter un nouveau fichier).
