@@ -13,73 +13,80 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Application - <?= isset($title) ? $title : "Accueil" ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-   <style>
-    /* Global Styles */
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f9f9f9;
-        color: #333;
-        margin: 0;
-    }
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+        }
 
-    /* Sticky Navbar */
-    .navbar {
-        position: sticky; /* Fixe la position */
-        top: 0; /* Collée en haut de la fenêtre */
-        z-index: 1000; /* Assure que la navbar est au-dessus des autres éléments */
-        background-color: #333; /* Couleur de fond */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre subtile */
-        padding: 10px 20px;
-    }
+        /* Sticky Navbar */
+        .navbar {
+            position: sticky;
+            /* Fixe la position */
+            top: 0;
+            /* Collée en haut de la fenêtre */
+            z-index: 1000;
+            /* Assure que la navbar est au-dessus des autres éléments */
+            background-color: #333;
+            /* Couleur de fond */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Ombre subtile */
+            padding: 10px 20px;
+        }
 
-    .navbar-brand {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #fff;
-    }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
 
-    .nav-link {
-        color: #ddd;
-        transition: color 0.3s ease-in-out;
-    }
+        .nav-link {
+            color: #ddd;
+            transition: color 0.3s ease-in-out;
+        }
 
-    .nav-link:hover {
-        color: #fff;
-    }
+        .nav-link:hover {
+            color: #fff;
+        }
 
-    /* Main Content */
-    main {
-        padding: 20px;
-        background-color: #fff;
-        margin: 20px auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        min-height: 100vh; /* Pour forcer le contenu à remplir l'écran */
-    }
+        /* Main Content */
+        main {
+            padding: 20px;
+            background-color: #fff;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+            /* Pour forcer le contenu à remplir l'écran */
+        }
 
-    /* Footer */
-    footer {
-        background-color: #333;
-        color: #ddd;
-        padding: 20px 0;
-    }
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #ddd;
+            padding: 20px 0;
+        }
 
-    footer .nav-link {
-        color: #ddd;
-        transition: color 0.3s ease-in-out;
-    }
+        footer .nav-link {
+            color: #ddd;
+            transition: color 0.3s ease-in-out;
+        }
 
-    footer .nav-link:hover {
-        color: #fff;
-    }
+        footer .nav-link:hover {
+            color: #fff;
+        }
 
-    footer p {
-        margin: 10px 0;
-        font-size: 0.9rem;
-    }
-</style>
+        footer p {
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+    </style>
 
 
 
@@ -100,7 +107,7 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
                         <li class="nav-item">
                             <a class="nav-link" href="/projet-vente-en-ligne/produit"><i class="fas fa-box"></i> Produits</a>
                         </li>
-                       
+
                     <?php endif; ?>
                     <?php if ($isClient || $isVendeurOuAdmin): ?>
                         <li class="nav-item">
