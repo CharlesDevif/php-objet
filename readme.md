@@ -4,7 +4,28 @@ Projet pédagogique dont le but est de revoir le paradigme de la programmation o
 
 Développé par Charles Devif & Vincenzo Cusma.
 
+## Environnement technique
+
+- PHP 8.x
+- Composer
+- Docker
+- PHPMyAdmin
+- MySQL
+- Apache
+- IDE : Visual Studio Code
+- Git
+
 ## Environnement de développement / test
+
+### Composer
+
+Afin d'installer les dépendances php, il vous sera nécessaire d'effectuer les commandes suivantes (l'installation de Composer est requise) :
+
+```bash
+cd projet-vente-en-ligne && composer i
+```
+
+### Docker
 
 Il est impératif d'utiliser `Docker` pour exécuter cet environnement.
 
