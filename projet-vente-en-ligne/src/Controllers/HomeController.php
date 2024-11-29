@@ -3,63 +3,70 @@
 namespace App\Controllers;
 
 use App\Service\ProduitService;
-use App\Entity\Panier;
+use App\Service\PanierService;
 
 class HomeController extends Controller
 {
     private ProduitService $produitService;
+    private PanierService $panierService;
 
     public function __construct()
     {
         $this->produitService = new ProduitService();
-
-        // Initialisation du panier si non existant
-        if (!isset($_SESSION['panier'])) {
-            $_SESSION['panier'] = serialize(new Panier());
-        }
-    }
-
-    private function getPanier(): Panier
-    {
-        return unserialize($_SESSION['panier']);
-    }
-
-    private function sauvegarderPanier(Panier $panier): void
-    {
-        $_SESSION['panier'] = serialize($panier);
+        $this->panierService = new PanierService();
     }
 
     public function index()
     {
-        $produits = $this->produitService->recupererProduitsAffichables();
-        $this->render('home/index', ['produits' => $produits], 'default');
+        try {
+            // Récupérer les produits disponibles
+            $produits = $this->produitService->recupererProduitsAffichables();
+
+            // Transmettre les produits à la vue
+            $this->render('home/index', [
+                'produits' => $produits,
+            ], 'default');
+        } catch (\Exception $e) {
+            $_SESSION['error_message'] = "Erreur lors du chargement des produits : " . $e->getMessage();
+            $this->render('home/index', [
+                'produits' => [],
+            ], 'default');
+        }
     }
 
     public function ajouterAuPanier()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_produit'])) {
             $idProduit = (int)$_POST['id_produit'];
-            $quantite = 1; // Par défaut, ajout d'une unité
+            $quantite = 1; // Par défaut, ajouter 1 unité
 
-            $produit = $this->produitService->recupererProduitParId($idProduit);
+            try {
+               
 
-            if ($produit && $produit->verifierStock($quantite)) {
-                $panier = $this->getPanier();
-                $panier->ajouterArticle($produit, $quantite);
+                $utilisateur = unserialize($_SESSION['utilisateur']);
+                $utilisateurId = $utilisateur->getId();
 
-                // Met à jour le stock
-                $this->produitService->verifierEtMettreAJourStock($idProduit, $quantite);
+                // Vérifiez l'existence du produit
+                $produit = $this->produitService->recupererProduitParId($idProduit);
 
-                // Sauvegarde du panier
-                $this->sauvegarderPanier($panier);
+                if (!$produit || !$produit->verifierStock($quantite)) {
+                    throw new \Exception('Stock insuffisant ou produit introuvable.');
+                }
+
+                // Récupérer ou créer le panier pour l'utilisateur connecté
+                $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateurId);
+
+                // Ajouter le produit au panier
+                $this->panierService->ajouterArticle($panierId, $idProduit, $quantite);
 
                 $_SESSION['success_message'] = 'Produit ajouté au panier avec succès.';
-            } else {
-                $_SESSION['error_message'] = 'Stock insuffisant ou produit introuvable.';
+            } catch (\Exception $e) {
+                $_SESSION['error_message'] = $e->getMessage();
             }
         }
 
         header('Location: /projet-vente-en-ligne/');
         exit();
     }
+    
 }

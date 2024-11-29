@@ -16,7 +16,7 @@ class Panier
 
     public function ajouterArticle(Produit $produit, int $quantite): void
     {
-        $id = spl_object_id($produit);
+        $id = $produit->getId(); // Utilisation de l'ID réel du produit
         if (isset($this->articles[$id])) {
             $this->articles[$id]['quantite'] += $quantite;
         } else {
@@ -26,7 +26,7 @@ class Panier
 
     public function retirerArticle(Produit $produit, int $quantite): void
     {
-        $id = spl_object_id($produit);
+        $id = $produit->getId(); // Utilisation de l'ID réel du produit
         if (isset($this->articles[$id])) {
             $this->articles[$id]['quantite'] -= $quantite;
             if ($this->articles[$id]['quantite'] <= 0) {
@@ -57,24 +57,18 @@ class Panier
         }
         return $total;
     }
+    
 
-    /**
-     * Récupérer les articles dans le panier.
-     *
-     * @return array
-     */
     public function getArticles(): array
     {
         return $this->articles;
     }
 
-    /**
-     * Retourne la date de création du Panier.
-     *
-     * @return \DateTime
-     */
     public function getDateCreation(): \DateTime
     {
         return $this->dateCreation;
     }
+
+    
 }
+

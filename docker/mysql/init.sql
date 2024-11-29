@@ -81,4 +81,25 @@ CREATE TABLE IF NOT EXISTS panier_article (
     FOREIGN KEY (produit_id) REFERENCES produit(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS commande (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INT NOT NULL,
+    date_creation DATETIME NOT NULL,
+    etat ENUM('en_cours', 'en_preparation', 'expediee', 'livree') DEFAULT 'en_cours',
+    total DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
+);
+
+CREATE TABLE IF NOT EXISTS commande_article (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    commande_id INT NOT NULL,
+    produit_id INT NOT NULL,
+    quantite INT NOT NULL,
+    prix_unitaire DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (commande_id) REFERENCES commande(id),
+    FOREIGN KEY (produit_id) REFERENCES produit(id)
+);
+
+
+
 COMMIT;

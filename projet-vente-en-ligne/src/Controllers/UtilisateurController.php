@@ -24,6 +24,7 @@ class UtilisateurController extends Controller
 
             if ($utilisateur) {
                 $_SESSION['utilisateur'] = serialize($utilisateur); // Sérialiser l'objet utilisateur
+                
                 header('Location: /projet-vente-en-ligne/');
                 exit();
             } else {

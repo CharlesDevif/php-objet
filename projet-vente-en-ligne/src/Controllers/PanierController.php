@@ -2,50 +2,53 @@
 
 namespace App\Controllers;
 
-use App\Entity\Panier;
+use App\Service\PanierService;
 use App\Service\ProduitService;
 
 class PanierController extends Controller
 {
-    private ProduitService $service;
+    private PanierService $panierService;
+    private ProduitService $produitService;
 
     public function __construct()
     {
-        $this->service = new ProduitService();
-        if (!isset($_SESSION['panier'])) {
-            $_SESSION['panier'] = serialize(new Panier());
+        $this->panierService = new PanierService();
+        $this->produitService = new ProduitService();
+    }
+
+    private function verifierUtilisateur(): void
+    {
+        if (!isset($_SESSION['utilisateur'])) {
+            $_SESSION['erreur_panier'] = 'Vous devez être connecté pour accéder au panier.';
+            header('Location: /projet-vente-en-ligne/utilisateur/connexion');
+            exit();
         }
     }
-
-    private function getPanier(): Panier
-    {
-        return unserialize($_SESSION['panier']);
-    }
-
-    private function sauvegarderPanier(Panier $panier): void
-    {
-        $_SESSION['panier'] = serialize($panier);
-    }
+    
 
     public function ajouter()
     {
+        $this->verifierUtilisateur();
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_produit'], $_POST['quantite'])) {
             $idProduit = (int)$_POST['id_produit'];
             $quantite = max((int)$_POST['quantite'], 1);
 
-            $produit = $this->service->recupererProduitParId($idProduit);
+            try {
+                $produit = $this->produitService->recupererProduitParId($idProduit);
 
-            if ($produit && $produit->verifierStock($quantite)) {
-                $panier = $this->getPanier();
-                $panier->ajouterArticle($produit, $quantite);
+                if (!$produit || !$produit->verifierStock($quantite)) {
+                    throw new \Exception('Stock insuffisant ou produit introuvable.');
+                }
 
-                // Met à jour le stock
-                $this->service->verifierEtMettreAJourStock($idProduit, $quantite);
+                $utilisateur = unserialize($_SESSION['utilisateur']);
+                $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
 
-                // Sauvegarde du panier
-                $this->sauvegarderPanier($panier);
-            } else {
-                $_SESSION['erreur_panier'] = 'Stock insuffisant.';
+                $this->panierService->ajouterArticle($panierId, $idProduit, $quantite);
+
+                $_SESSION['success_message'] = 'Produit ajouté au panier avec succès.';
+            } catch (\Exception $e) {
+                $_SESSION['erreur_panier'] = $e->getMessage();
             }
         }
 
@@ -55,32 +58,112 @@ class PanierController extends Controller
 
     public function index()
     {
-        $panier = $this->getPanier();
-
-        $this->render('panier/index', [
-            'articles' => $panier->getArticles(),
-            'total' => $panier->calculerTotal(),
-        ], 'default');
+        $this->verifierUtilisateur();
+    
+        try {
+            $utilisateur = unserialize($_SESSION['utilisateur']);
+            $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
+            $articles = $this->panierService->recupererArticles($panierId);
+    
+            $this->render('panier/index', [
+                'articles' => $articles,
+                'total' => $this->panierService->calculerTotal($articles),
+            ], 'default');
+        } catch (\Exception $e) {
+            $_SESSION['erreur_panier'] = $e->getMessage();
+            header('Location: /projet-vente-en-ligne/');
+            exit();
+        }
     }
+    
+    
 
     public function retirer()
     {
+        $this->verifierUtilisateur();
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_produit'], $_POST['quantite'])) {
             $idProduit = (int)$_POST['id_produit'];
             $quantite = max((int)$_POST['quantite'], 1);
 
-            $produit = $this->service->recupererProduitParId($idProduit);
+            try {
+                $utilisateur = unserialize($_SESSION['utilisateur']);
+                $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
 
-            if ($produit) {
-                $panier = $this->getPanier();
-                $panier->retirerArticle($produit, $quantite);
+                $this->panierService->retirerArticle($panierId, $idProduit, $quantite);
 
-                // Sauvegarde du panier
-                $this->sauvegarderPanier($panier);
+                $_SESSION['success_message'] = 'Produit retiré du panier avec succès.';
+            } catch (\Exception $e) {
+                $_SESSION['erreur_panier'] = $e->getMessage();
             }
         }
 
         header('Location: /projet-vente-en-ligne/panier');
         exit();
     }
+
+    public function vider()
+    {
+        $this->verifierUtilisateur();
+
+        try {
+            $utilisateur = unserialize($_SESSION['utilisateur']);
+            $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
+
+            $this->panierService->viderPanier($panierId);
+
+            $_SESSION['success_message'] = 'Panier vidé avec succès.';
+        } catch (\Exception $e) {
+            $_SESSION['erreur_panier'] = $e->getMessage();
+        }
+
+        header('Location: /projet-vente-en-ligne/panier');
+        exit();
+    }
+
+    public function confirmationCommande()
+    {
+        $this->verifierUtilisateur();
+    
+        try {
+            $utilisateur = unserialize($_SESSION['utilisateur']);
+            $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
+            $articles = $this->panierService->recupererArticles($panierId);
+            $total = $this->panierService->calculerTotal($articles);
+    
+            // Rendre la vue de confirmation
+            $this->render('panier/confirmation', [
+                'articles' => $articles,
+                'total' => $total,
+            ], 'default');
+        } catch (\Exception $e) {
+            $_SESSION['error_message'] = $e->getMessage();
+            header('Location: /projet-vente-en-ligne/panier');
+            exit();
+        }
+    }
+    
+
+    public function validerCommande()
+    {
+        $this->verifierUtilisateur();
+    
+        try {
+            $utilisateur = unserialize($_SESSION['utilisateur']);
+            $panierId = $this->panierService->recupererOuCreerPanierPourUtilisateur($utilisateur->getId());
+    
+            // Passer la commande
+            $this->panierService->passerCommande($utilisateur->getId(), $panierId);
+    
+            $_SESSION['success_message'] = 'Votre commande a été passée avec succès.';
+            header('Location: /projet-vente-en-ligne/commande/historique');
+            exit();
+        } catch (\Exception $e) {
+            $_SESSION['error_message'] = $e->getMessage();
+            header('Location: /projet-vente-en-ligne/panier');
+            exit();
+        }
+    }
+    
+
 }
