@@ -30,7 +30,9 @@ Pour les relancer : `docker-compose start`.
 
 Une fois les conteneurs lancés, il suffit de vous rendre sur le [lien suivant](http://localhost:8080/projet-vente-en-ligne/).
 
-Pour les [tests réalisés](http://localhost:8080/projet-vente-en-ligne/test)
+- Pour les [tests réalisés](http://localhost:8080/projet-vente-en-ligne/test)
+
+- Pour [PHPMyAdmin](http://localhost:8081/).
 
 ## Mise en place d'un routeur
 
