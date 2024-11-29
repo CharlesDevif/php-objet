@@ -207,23 +207,7 @@
         }
     }
 
-    /* Scrollbar styles */
-    body::-webkit-scrollbar {
-        width: 10px;
-    }
-
-    body::-webkit-scrollbar-thumb {
-        background: #4CAF50;
-        border-radius: 10px;
-    }
-
-    body::-webkit-scrollbar-thumb:hover {
-        background: #45a049;
-    }
-
-    body::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
+   
 </style>
 
 

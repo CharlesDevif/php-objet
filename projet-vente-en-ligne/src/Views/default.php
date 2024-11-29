@@ -16,28 +16,16 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        /* Global Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-        }
-
-        /* Sticky Navbar */
-        .navbar {
-            position: sticky;
-            /* Fixe la position */
-            top: 0;
-            /* Collée en haut de la fenêtre */
-            z-index: 1000;
-            /* Assure que la navbar est au-dessus des autres éléments */
-            background-color: #333;
-            /* Couleur de fond */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Ombre subtile */
-            padding: 10px 20px;
-        }
+    /* Applique Flexbox au body */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
 
         .navbar-brand {
             font-size: 1.5rem;
@@ -64,28 +52,45 @@ $isClient = $utilisateur && in_array('ROLE_CLIENT', $utilisateur->getRoles());
             min-height: 100vh;
             /* Pour forcer le contenu à remplir l'écran */
         }
+    /* Assure que le contenu principal prend tout l'espace disponible */
+    main {
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        margin: 20px auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 1500px;
+        width: 100%;
+    }
 
-        /* Footer */
-        footer {
-            background-color: #333;
-            color: #ddd;
-            padding: 20px 0;
-        }
+    /* Footer */
+    footer {
+        background-color: #333;
+        color: #ddd;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    footer p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    footer .nav {
+        justify-content: center;
+    }
 
         footer .nav-link {
             color: #ddd;
             transition: color 0.3s ease-in-out;
         }
 
-        footer .nav-link:hover {
-            color: #fff;
-        }
+    footer .nav-link:hover {
+        color: #fff;
+    }
+</style>
 
-        footer p {
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-    </style>
 
 
 
